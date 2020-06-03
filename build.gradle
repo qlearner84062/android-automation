@@ -1,0 +1,34 @@
+plugins {
+
+  id 'java'
+
+  id "com.katalon.gradle-plugin" version "0.0.7"
+
+}
+
+
+
+repositories {
+
+  mavenCentral()
+
+}
+
+
+
+dependencies {
+
+  compile ('com.applitools:eyes-appium-java4:+')
+
+  {
+
+  exclude module: 'eyes-connectivity-java4-jersey2x'
+
+  }
+
+  compile ('com.applitools:eyes-connectivity-java4-jersey1x:+')
+
+  
+
+}
+
