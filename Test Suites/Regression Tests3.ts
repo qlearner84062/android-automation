@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestSuiteEntity>
    <description></description>
-   <name>Regression Tests</name>
+   <name>Regression Tests3</name>
    <tag></tag>
    <isRerun>false</isRerun>
    <mailRecipient></mailRecipient>
@@ -9,11 +9,11 @@
    <pageLoadTimeout>30</pageLoadTimeout>
    <pageLoadTimeoutDefault>true</pageLoadTimeoutDefault>
    <rerunFailedTestCasesOnly>false</rerunFailedTestCasesOnly>
-   <testSuiteGuid>9c54801c-d57d-404c-be15-6c167ec3650a</testSuiteGuid>
+   <testSuiteGuid>b4724a66-1d47-4cfc-83d3-f3f0745223f2</testSuiteGuid>
    <testCaseLink>
-      <guid>ececd735-a505-475a-b573-029cacc1a694</guid>
+      <guid>2fc19b3b-86df-4e76-bc62-cc677775f753</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/doTERRA/doTERRA-HybridApp-Enroll</testCaseId>
+      <testCaseId>Test Cases/doTERRA/doTERRA-MobileApp-Auth</testCaseId>
    </testCaseLink>
 </TestSuiteEntity>

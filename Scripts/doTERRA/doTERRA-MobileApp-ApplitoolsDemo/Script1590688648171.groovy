@@ -119,8 +119,8 @@ eyes.checkWindow()
 //Mobile.tap(findTestObject('Object Repository/doTERRA-MobileApp/Bag - Page/btn_Start Shopping'), GlobalVariable.G_Timeout_Long)
 //
 ////Validate that user have 700.00 rewards points
-//Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_700.00'), GlobalVariable.G_Timeout_Long)
-//String rewardPoints = Mobile.getText(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_700.00'), GlobalVariable.G_Timeout_Long)
+//Mobile.verifyElementExist(findTestObject('doTERRA-MobileApp/Shop - Page/lbl_0.00'), GlobalVariable.G_Timeout_Long)
+//String rewardPoints = Mobile.getText(findTestObject('doTERRA-MobileApp/Shop - Page/lbl_0.00'), GlobalVariable.G_Timeout_Long)
 //Mobile.verifyMatch(rewardPoints, '700.00', false)
 //
 ////Click on ACCOUNT icon in bottom nav

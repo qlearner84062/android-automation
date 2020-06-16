@@ -235,155 +235,133 @@ class BDDStepsDefinition {
 		String actualPassword = Mobile.getText(findTestObject('Object Repository/doTERRA-HybridApp/Account Setup - Page/txt_Create a Password'), GlobalVariable.G_Timeout_Long)
 		Mobile.verifyMatch(actualPassword, password, false)
 	}
-	
+
 	//******************************MOBILE APP******************************
+	
 	@Given("I successfully lanuched Mobile application")
 	def launchMobileApp() {
 		//Launch application
-		Mobile.startApplication(GlobalVariable.G_AndroidApp, true)
+		CustomKeywords.'custom.keywords.startApplication'(GlobalVariable.G_AndroidApp, findTestObject('Object Repository/doTERRA-MobileApp/Already have an account - Dialog/btn_X'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort, true)
 		
 		//Close Already have an account dialog
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Already have an account - Dialog/btn_X'), GlobalVariable.G_Timeout_Long)
-		Mobile.tap(findTestObject('Object Repository/doTERRA-MobileApp/Already have an account - Dialog/btn_X'), GlobalVariable.G_Timeout_Long)
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Already have an account - Dialog/btn_X'), 'clickable', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
-	
+
 	@Given("I am on the Shop page where I can browse all products")
 	def validateShopPage() {
-		//Verify Shop page displaying
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/btn_Browse All Products'), GlobalVariable.G_Timeout_Long)
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/card_Single Oils'), GlobalVariable.G_Timeout_Long)
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/card_Blend Oils'), GlobalVariable.G_Timeout_Long)
+		//Verify Shop page displaying	
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/btn_Browse All Products'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/card_Single Oils'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/card_Blend Oils'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
-	
+
 	@When("I click on ACCOUNT icon and navigate to Login page")
 	def clickAccountNavigateLoginPage() {
 		//Click on Account icon in the bottom nav
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Bottom Nav/icn_ACCOUNT'), GlobalVariable.G_Timeout_Long)
-		Mobile.tap(findTestObject('Object Repository/doTERRA-MobileApp/Bottom Nav/icn_ACCOUNT'), GlobalVariable.G_Timeout_Long)
-		
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Bottom Nav/icn_ACCOUNT'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+
 		//Click on I already have an account button
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Account - Page/lbl_I already have an account'), GlobalVariable.G_Timeout_Long)
-		Mobile.tap(findTestObject('Object Repository/doTERRA-MobileApp/Account - Page/lbl_I already have an account'), GlobalVariable.G_Timeout_Long)
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Account - Page/lbl_I already have an account'), 'clickable', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
-	
+
 	@Then("I should see Login page with disabled Log in button")
 	def validateLoginButtonDisabled() {
 		//Validate that Log in button is disabled
-		Mobile.verifyElementExist(findTestObject('doTERRA-MobileApp/Log in - Page/btn_Log In'), GlobalVariable.G_Timeout_Long)
-		Mobile.verifyElementAttributeValue(findTestObject('doTERRA-MobileApp/Log in - Page/btn_Log In'), 'class', 'android.widget.Button', GlobalVariable.G_Timeout_Long)
-		Mobile.verifyElementAttributeValue(findTestObject('doTERRA-MobileApp/Log in - Page/btn_Log In'), 'enabled', 'false', GlobalVariable.G_Timeout_Long)
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('doTERRA-MobileApp/Log in - Page/btn_Log In'), 'class', 'android.widget.Button', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('doTERRA-MobileApp/Log in - Page/btn_Log In'), 'enabled', 'false', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
-	
+
 	@When("I enter my user's (.*) and (.*)")
 	def enterIDAndPassword(String id, String password) {
-		//Enter ID
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Log in - Page/txt_Enter your email or ID'), GlobalVariable.G_Timeout_Long)
-		Mobile.setText(findTestObject('Object Repository/doTERRA-MobileApp/Log in - Page/txt_Enter your email or ID'), id, GlobalVariable.G_Timeout_Long)
-		
-		//Enter password
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Log in - Page/txt_Enter your password'), GlobalVariable.G_Timeout_Long)
-		Mobile.setEncryptedText(findTestObject('Object Repository/doTERRA-MobileApp/Log in - Page/txt_Enter your password'), password, GlobalVariable.G_Timeout_Long)
+		//Enter ID		
+		CustomKeywords.'custom.keywords.setText'(findTestObject('Object Repository/doTERRA-MobileApp/Log in - Page/txt_Enter your email or ID'), 'enabled', 'true', id, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+
+		//Enter password		
+		CustomKeywords.'custom.keywords.setText'(findTestObject('Object Repository/doTERRA-MobileApp/Log in - Page/txt_Enter your password'), 'enabled', 'true', password, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
-	
+
 	@Then("I should see Log in button become enabled")
 	def verifyLoginButtonEnabled() {
-		//Verify that Log in button become enabled after entering ID and password
-		Mobile.verifyElementExist(findTestObject('doTERRA-MobileApp/Log in - Page/btn_Log In'), GlobalVariable.G_Timeout_Long)
-		Mobile.verifyElementAttributeValue(findTestObject('doTERRA-MobileApp/Log in - Page/btn_Log In'), 'enabled', 'true', GlobalVariable.G_Timeout_Long)
+		//Verify that Log in button become enabled after entering ID and password		
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('doTERRA-MobileApp/Log in - Page/btn_Log In'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
-	
+
 	@When("I click on Log in button")
 	def clickLoginButton() {
-		//Click on Log in button
-		Mobile.verifyElementExist(findTestObject('doTERRA-MobileApp/Log in - Page/btn_Log In'), GlobalVariable.G_Timeout_Long)
-		Mobile.tap(findTestObject('doTERRA-MobileApp/Log in - Page/btn_Log In'), GlobalVariable.G_Timeout_Long)
+		//Click on Log in button		
+		CustomKeywords.'custom.keywords.tap'(findTestObject('doTERRA-MobileApp/Log in - Page/btn_Log In'), 'clickable', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
-	
+
 	@Then("I should see User Account page")
 	def validateUserAccountPage() {
 		//Verify that User Account page is displaying
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/card_My Orders'), GlobalVariable.G_Timeout_Long)
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/card_Saved Products'), GlobalVariable.G_Timeout_Long)
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/card_My Details'), GlobalVariable.G_Timeout_Long)
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/card_US English Local'), GlobalVariable.G_Timeout_Long)
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/card_Notifications'), GlobalVariable.G_Timeout_Long)
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/card_My Orders'), GlobalVariable.G_Timeout_Long)
-		Mobile.scrollToText('Privacy Policy')
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/lnk_Log out'), GlobalVariable.G_Timeout_Long)
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/lnk_Privacy Policy'), GlobalVariable.G_Timeout_Long)
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/lnk_Terms  Conditions'), GlobalVariable.G_Timeout_Long)
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/card_My Orders'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)	
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/card_Saved Products'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/card_My Details'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/card_US English Local'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/card_Notifications'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.scrollToText'('Privacy Policy', findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/lnk_Privacy Policy'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/lnk_Log out'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/lnk_Privacy Policy'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/lnk_Terms  Conditions'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
-	
+
 	@When("I click on My Details card")
 	def clickMyDetailsCard() {
 		//Click on My Details card
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/card_My Details'), GlobalVariable.G_Timeout_Long)
-		Mobile.tap(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/card_My Details'), GlobalVariable.G_Timeout_Long)
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/card_My Details'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
-	
+
 	@Then("I should be able to validate authenticated user (.*) and (.*)")
 	def validateAuthenticatedUserNameAndID(String fullName, String id) {
 		//Verify user full name
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/My Details - Page/lbl_Lucas Pinto'), GlobalVariable.G_Timeout_Long)
-		String name = Mobile.getText(findTestObject('Object Repository/doTERRA-MobileApp/My Details - Page/lbl_Lucas Pinto'), GlobalVariable.G_Timeout_Long)
-		Mobile.verifyMatch(name, fullName, false)
-		
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/My Details - Page/lbl_Lucas Pinto'), fullName, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+
 		//Verify user doTERRA ID
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/My Details - Page/lbl_8111537'), GlobalVariable.G_Timeout_Long)
-		String doTERRAID = Mobile.getText(findTestObject('Object Repository/doTERRA-MobileApp/My Details - Page/lbl_8111537'), GlobalVariable.G_Timeout_Long)
-		Mobile.verifyMatch(doTERRAID, id, false)
-		
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/My Details - Page/lbl_8111537'), id, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+
 		//Click Back button in upper nav
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Upper Nav/btn_Back'), GlobalVariable.G_Timeout_Long)
-		Mobile.tap(findTestObject('Object Repository/doTERRA-MobileApp/Upper Nav/btn_Back'), GlobalVariable.G_Timeout_Long)
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Upper Nav/btn_Back'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
-	
+
 	@When("I click on BAG icon")
 	def clickBAGIcon() {
 		//Click on BAG icon in the bottom nav
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Bottom Nav/icn_BAG'), GlobalVariable.G_Timeout_Long)
-		Mobile.tap(findTestObject('Object Repository/doTERRA-MobileApp/Bottom Nav/icn_BAG'), GlobalVariable.G_Timeout_Long)
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Bottom Nav/icn_BAG'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
-	
+
 	@Then("my shopping bag should be empty")
 	def verifyShoppingBagEmpty() {
 		//Verify that Bag is empty
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Bag - Page/lbl_Your bag is empty'), GlobalVariable.G_Timeout_Long)
-		String emptyBag = Mobile.getText(findTestObject('Object Repository/doTERRA-MobileApp/Bag - Page/lbl_Your bag is empty'), GlobalVariable.G_Timeout_Long)
-		Mobile.verifyMatch(emptyBag, 'Your bag is empty', false)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Bag - Page/lbl_Your bag is empty'), 'Your bag is empty', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
-	
+
 	@When("I click on Start Shopping button")
 	def clickStartShoppingButton() {
 		//Click on Start Shopping button
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Bag - Page/btn_Start Shopping'), GlobalVariable.G_Timeout_Long)
-		Mobile.tap(findTestObject('Object Repository/doTERRA-MobileApp/Bag - Page/btn_Start Shopping'), GlobalVariable.G_Timeout_Long)
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Bag - Page/btn_Start Shopping'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
-	
+
 	@Then("I should be able to see my user's (.*)")
 	def validateUserRewardPoints(String rewardPoints) {
 		//Validate that user have 700.00 rewards points
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_700.00'), GlobalVariable.G_Timeout_Long)
-		String points = Mobile.getText(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_700.00'), GlobalVariable.G_Timeout_Long)
-		Mobile.verifyMatch(points, rewardPoints, false)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_0.00'), rewardPoints, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
-	
+
 	@When("I navigate back to User Account page")
 	def navigateToUserAccountPage() {
 		//Click on ACCOUNT icon in bottom nav
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Bottom Nav/icn_ACCOUNT'), GlobalVariable.G_Timeout_Long)
-		Mobile.tap(findTestObject('Object Repository/doTERRA-MobileApp/Bottom Nav/icn_ACCOUNT'), GlobalVariable.G_Timeout_Long)
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Bottom Nav/icn_ACCOUNT'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
-	
+
 	@Then("I should be able to log out my user")
 	def logOutUser() {
 		//Log out user
-		Mobile.scrollToText('Log out')
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/lnk_Log out'), GlobalVariable.G_Timeout_Long)
-		Mobile.tap(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/lnk_Log out'), GlobalVariable.G_Timeout_Long)
-		
+		CustomKeywords.'custom.keywords.scrollToText'('Log out', findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/lnk_Log out'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/lnk_Log out'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+
 		//Verify that user has successfully logged out
-		Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Account - Page/lbl_I already have an account'), GlobalVariable.G_Timeout_Long)
-		Mobile.closeApplication()
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Account - Page/lbl_I already have an account'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.closeApplication'()
 	}
 }

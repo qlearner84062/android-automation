@@ -45,24 +45,160 @@ import com.kms.katalon.core.webui.exception.WebElementNotFoundException
 class keywords {
 
 	@Keyword
-	def isElementPresent_Mobile(TestObject to, int timeout){
+	def startApplication(String appFile, TestObject to, int timeout, int delay, boolean uninstallAfterCloseApp) {
+		Mobile.startApplication(appFile, uninstallAfterCloseApp)
+		Mobile.waitForElementPresent(to, timeout)
 		try {
-			KeywordUtil.logInfo("Finding element with id:" + to.getObjectId())
-
-			WebElement element = MobileElementCommonHelper.findElement(to, timeout)
-			if (element != null) {
-				KeywordUtil.markPassed("Object " + to.getObjectId() + " is present")
+			for(int i = 0; i <= 5; i++) {
+				boolean elementExist = Mobile.verifyElementExist(to, timeout)
+				if(!elementExist) {
+					Mobile.delay(delay)
+					continue
+				} else {
+					System.out.println("elementExist (startApplication): " + elementExist)
+					KeywordUtil.markPassed("Mobile application " + appFile + " launched successfully!")
+					break
+				}
 			}
-			return true
 		} catch (Exception e) {
-			KeywordUtil.markFailed("Object " + to.getObjectId() + " is not present")
+			KeywordUtil.markFailed("Mobile application " + appFile + " failed to launch!")
 		}
-		return false;
 	}
 
 	@Keyword
-	def WebDriver getCurrentSessionMobileDriver() {
-		return MobileDriverFactory.getDriver();
+	def tap(TestObject to, String attributeName, String attributeValue, int timeout, int delay) {
+		try {
+			for(int i = 0; i <= 5; i++) {
+				Mobile.waitForElementPresent(to, timeout)
+				boolean elementExist = Mobile.verifyElementExist(to, timeout)
+				if(!elementExist) {
+					Mobile.delay(delay)
+					continue
+				} else {
+					System.out.println("elementExist (tap): " + elementExist)
+					Mobile.waitForElementAttributeValue(to, attributeName, attributeValue, timeout)
+					boolean elementHasAttribute = Mobile.verifyElementAttributeValue(to, attributeName, attributeValue, timeout)
+					if(!elementHasAttribute) {
+						Mobile.delay(delay)
+						continue
+					} else {
+						System.out.println("elementHasAttribute (tap): " + elementHasAttribute)
+						Mobile.tap(to, timeout)
+						break
+					}
+				}
+			}
+		} catch (Exception e) {
+			KeywordUtil.markFailed("Mobile element " + to + " is not found!")
+		}
+	}
+
+	@Keyword
+	def verifyElementExistsWithAttribute(TestObject to, String attributeName, String attributeValue, int timeout, int delay) {
+		try {
+			for(int i = 0; i <= 5; i++) {
+				Mobile.waitForElementPresent(to, timeout)
+				boolean elementExist = Mobile.verifyElementExist(to, timeout)
+				if(!elementExist) {
+					Mobile.delay(delay)
+					continue
+				} else {
+					System.out.println("elementExist (verifyElementExistsWithAttribute): " + elementExist)
+					Mobile.waitForElementAttributeValue(to,  attributeName, attributeValue, timeout)
+					boolean elementHasAttribute = Mobile.verifyElementAttributeValue(to, attributeName, attributeValue, timeout)
+					if(!elementHasAttribute) {
+						Mobile.delay(delay)
+						continue
+					} else {
+						System.out.println("elementHasAttribute (verifyElementExistsWithAttribute): " + elementHasAttribute)
+						KeywordUtil.markPassed("Found elemenet " + to + " with attribute " + attributeName + " and attribute value " + attributeValue)
+						break
+					}
+				}
+			}
+		} catch (Exception e) {
+			KeywordUtil.markFailed("Mobile element " + to + " is not found!")
+		}
+	}
+
+	@Keyword
+	def setText(TestObject to, String attributeName, String attributeValue, String text, int timeout, int delay) {
+		try {
+			for(int i = 0; i <= 5; i++) {
+				Mobile.waitForElementPresent(to, timeout)
+				boolean elementExist = Mobile.verifyElementExist(to, timeout)
+				if(!elementExist) {
+					Mobile.delay(delay)
+					continue
+				} else {
+					System.out.println("elementExist (setText): " + elementExist)
+					Mobile.waitForElementAttributeValue(to, attributeName, attributeValue, timeout)
+					boolean elementHasAttribute = Mobile.verifyElementAttributeValue(to, attributeName, attributeValue, timeout)
+					if(!elementHasAttribute) {
+						Mobile.delay(delay)
+						continue
+					} else {
+						System.out.println("elementHasAttribute (setText): " + elementHasAttribute)
+						KeywordUtil.markPassed("Found elemenet " + to + " with attribute " + attributeName + " and attribute value " + attributeValue)
+						Mobile.setText(to, "", timeout)
+						Mobile.setText(to, text, timeout)
+						break
+					}
+				}
+			}
+		} catch (Exception e) {
+			KeywordUtil.markFailed("Mobile element " + to + " is not found!")
+		}
+	}
+	
+	@Keyword
+	def scrollToText(String text, TestObject to, int timeout, int delay) {
+		Mobile.scrollToText(text)
+		try {
+			for(int i = 0; i <= 5; i++) {
+				Mobile.waitForElementPresent(to, timeout)
+				boolean elementExist = Mobile.verifyElementExist(to, timeout)
+				if(!elementExist) {
+					Mobile.delay(delay)
+					continue
+				} else {
+					KeywordUtil.markPassed("Successfully scrolled to " + text + " and found element " + to)
+					break
+				}
+			}
+		} catch (Exception e) {
+			KeywordUtil.markFailed("Mobile element " + to + " is not found!")
+		}
+	}
+	
+	@Keyword
+	def getTextAndVerifyMatch(TestObject to, String expectedText, int timeout, int delay) {
+		try {
+			for(int i = 0; i <= 5; i++) {
+				Mobile.waitForElementPresent(to, timeout)
+				boolean elementExist = Mobile.verifyElementExist(to, timeout)
+				if(!elementExist) {
+					Mobile.delay(delay)
+					continue
+				} else {
+					String actualText = Mobile.getText(to, timeout)
+					boolean compare = Mobile.verifyMatch(actualText, expectedText, false)
+					if(compare) {
+						KeywordUtil.markPassed("Successfully verified actual text " + actualText + " and expected text " + expectedText)
+						break
+					} else {
+						KeywordUtil.markFailed("Failed to verify match! Actual text" + actualText + " and expected text " + expectedText)
+					}
+				}
+			}
+		} catch (Exception e) {
+			KeywordUtil.markFailed("Mobile element " + to + " is not found!")
+		}
+	}
+	
+	@Keyword
+	def closeApplication() {
+		Mobile.closeApplication()
 	}
 
 	@Keyword

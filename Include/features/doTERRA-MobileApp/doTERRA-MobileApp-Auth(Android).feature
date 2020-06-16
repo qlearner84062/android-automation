@@ -21,4 +21,4 @@ Feature: doTERRA Mobile App Android
     
     Examples: 
       | id      | password                 | fullName    | rewardPoints |
-      | 8111537 | VL+i8NsHPUhDiyVo8sB+5w== | Lucas Pinto | 700.00       | 
+      | 8111537 | VL+i8NsHPUhDiyVo8sB+5w== | Lucas Pinto | 0.00         | 
