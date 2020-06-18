@@ -729,3 +729,58 @@
 2020-06-02 15:41:23.404 Eyes: [VERBOSE] {00000251811166777498} com.applitools.eyes.RestClient.sendLongRequest(): exit (CREATED)
 2020-06-02 15:41:23.791 Eyes: [VERBOSE] {00000251811166777498} com.applitools.eyes.EyesBase.close(): New test [ steps: 1, matches: 0, mismatches:0, missing: 0] , URL: https://eyes.applitools.com/app/batches/00000251811166777764/00000251811166777498?accountId=T1_fisqwDEWuQIfNNsUt9A~~
 2020-06-02 15:41:23.791 Eyes: [LOG    ] {00000251811166777498} com.applitools.eyes.EyesBase.close(): --- Test passed. See details at https://eyes.applitools.com/app/batches/00000251811166777764/00000251811166777498?accountId=T1_fisqwDEWuQIfNNsUt9A~~
+2020-06-17 08:47:01.456 Eyes: [LOG    ] {} com.applitools.eyes.EyesBase.logOpenBase(): Eyes server URL is 'https://eyesapi.applitools.com'
+2020-06-17 08:47:01.456 Eyes: [VERBOSE] {} com.applitools.eyes.EyesBase.logOpenBase(): Timeout = '300000'
+2020-06-17 08:47:01.457 Eyes: [LOG    ] {} com.applitools.eyes.EyesBase.logOpenBase(): matchTimeout = '2000' 
+2020-06-17 08:47:01.457 Eyes: [LOG    ] {} com.applitools.eyes.EyesBase.logOpenBase(): Default match settings = 'Match level: STRICT, Exact match settings: null' 
+2020-06-17 08:47:01.457 Eyes: [LOG    ] {} com.applitools.eyes.EyesBase.logOpenBase(): FailureReports = 'ON_CLOSE' 
+2020-06-17 08:47:01.457 Eyes: [LOG    ] {} com.applitools.eyes.EyesBase.logOpenBase(): Agent = eyes.appium.java/4.12.0
+2020-06-17 08:47:01.457 Eyes: [VERBOSE] {} com.applitools.eyes.EyesBase.logOpenBase(): openBase('katalon', 'Test', '412x660')
+2020-06-17 08:47:01.461 Eyes: [LOG    ] {} com.applitools.eyes.EyesBase.ensureRunningSession(): No running session, calling start session...
+2020-06-17 08:47:01.461 Eyes: [VERBOSE] {} com.applitools.eyes.EyesBase.startSession(): startSession()
+2020-06-17 08:47:01.462 Eyes: [VERBOSE] {} com.applitools.eyes.EyesBase.startSession(): No batch set
+2020-06-17 08:47:01.724 Eyes: [VERBOSE] {} com.applitools.eyes.selenium.wrappers.EyesWebDriver.getUserAgent(): Failed to obtain user-agent string
+2020-06-17 08:47:01.724 Eyes: [LOG    ] {} com.applitools.eyes.appium.Eyes.getAppEnvironment(): No OS set, checking for mobile OS...
+2020-06-17 08:47:01.724 Eyes: [LOG    ] {} com.applitools.eyes.appium.Eyes.getAppEnvironment(): Mobile device detected! Checking device type..
+2020-06-17 08:47:01.725 Eyes: [LOG    ] {} com.applitools.eyes.appium.Eyes.getAppEnvironment(): Android detected.
+2020-06-17 08:47:01.725 Eyes: [VERBOSE] {} com.applitools.eyes.appium.Eyes.getAppEnvironment(): Setting OS: Android 10
+2020-06-17 08:47:01.725 Eyes: [LOG    ] {} com.applitools.eyes.appium.Eyes.getAppEnvironment(): Done!
+2020-06-17 08:47:01.725 Eyes: [VERBOSE] {} com.applitools.eyes.EyesBase.startSession(): Application environment is [os = 'Android 10' hostingApp = ? deviceInfo = 'emulator-5554' displaySize = 412x660]
+2020-06-17 08:47:01.726 Eyes: [VERBOSE] {} com.applitools.eyes.EyesBase.startSession(): Starting server session...
+2020-06-17 08:47:01.726 Eyes: [VERBOSE] {} com.applitools.eyes.ServerConnector.startSession(): Using Jersey1 for REST API calls.
+2020-06-17 08:47:01.793 Eyes: [VERBOSE] {} com.applitools.eyes.RestClient.sendLongRequest(): enter
+2020-06-17 08:47:05.419 Eyes: [VERBOSE] {} com.applitools.eyes.RestClient.sendLongRequest(): exit (CREATED)
+2020-06-17 08:47:05.733 Eyes: [VERBOSE] {} com.applitools.eyes.EyesBase.startSession(): Server session ID is MDAwMDAyNTE4MDk4OTUzMTU5NjQ~;MDAwMDAyNTE4MDk4OTUzMTU0OTY~
+2020-06-17 08:47:05.733 Eyes: [LOG    ] {} com.applitools.eyes.EyesBase.startSession(): --- New test started - 'Test' of 'katalon' [os = 'Android 10' hostingApp = ? deviceInfo = 'emulator-5554' displaySize = 412x660]
+2020-06-17 08:47:05.733 Eyes: [LOG    ] {00000251809895315496} com.applitools.eyes.EyesBase.ensureRunningSession(): Done!
+2020-06-17 08:47:05.735 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.appium.Eyes.initDriverBasedPositionProviders(): Initializing Appium position provider
+2020-06-17 08:47:31.189 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.selenium.Eyes.createPositionProvider(): initializing position provider. stitchMode: SCROLL
+2020-06-17 08:47:31.190 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.selenium.positioning.ScrollPositionProvider.<init>(): creating ScrollPositionProvider
+2020-06-17 08:47:31.190 Eyes: [VERBOSE] {00000251809895315496} com.applitools.utils.ReadOnlyPropertyHandler.set(): Ignored. (ReadOnlyPropertyHandler)
+2020-06-17 08:47:31.190 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.selenium.Eyes.check(): check("null", checkSettings) - begin
+2020-06-17 08:47:31.191 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.selenium.positioning.ScrollPositionProvider.<init>(): creating ScrollPositionProvider
+2020-06-17 08:47:31.191 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.selenium.Eyes.check(): default case
+2020-06-17 08:47:31.191 Eyes: [LOG    ] {00000251809895315496} com.applitools.eyes.EyesBase.ensureRunningSession(): session already running.
+2020-06-17 08:47:31.192 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.EyesBase.matchWindow(): params: ([(0, 0) 0x0, SCREENSHOT_AS_IS], , -1)
+2020-06-17 08:47:31.192 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.MatchWindowTask.matchWindow(): retryTimeout = 2000
+2020-06-17 08:47:33.192 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.EyesBase.getAppOutputWithScreenshot(): getting screenshot...
+2020-06-17 08:47:33.192 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.selenium.Eyes.getScreenshot(): getScreenshot()
+2020-06-17 08:47:33.192 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.appium.Eyes.getFullPageScreenshot(): Full page Appium screenshot requested.
+2020-06-17 08:47:33.192 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.selenium.Eyes.updateScalingParams(): Setting scale provider...
+2020-06-17 08:47:33.193 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.selenium.Eyes.updateScalingParams(): Done!
+2020-06-17 08:47:33.194 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.appium.AppiumFullPageCaptureAlgorithm.getStitchedRegion(): getStitchedRegion()
+2020-06-17 08:47:33.194 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.appium.AppiumFullPageCaptureAlgorithm.getStitchedRegion(): getStitchedRegion: originProvider: class com.applitools.eyes.appium.AndroidScrollPositionProvider ; positionProvider: class com.applitools.eyes.appium.AndroidScrollPositionProvider ; cutProvider: class com.applitools.eyes.NullCutProvider
+2020-06-17 08:47:33.194 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.appium.AppiumFullPageCaptureAlgorithm.getStitchedRegion(): Region to check: (0, 0) 0x0, SCREENSHOT_AS_IS
+2020-06-17 08:47:33.195 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.appium.AndroidScrollPositionProvider.getCurrentPosition(): AndroidScrollPositionProvider - getCurrentPosition()
+2020-06-17 08:47:33.195 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.appium.AndroidScrollPositionProvider.getScrollableViewLocation(): Getting the location of the scrollable view..
+2020-06-17 08:48:03.490 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.appium.AndroidScrollPositionProvider.getScrollableViewLocation(): WARNING: could not find a scrollable view, using (0,0)
+2020-06-17 08:48:03.490 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.appium.AndroidScrollPositionProvider.checkCurrentScrollPosition(): There was no current scroll position registered, so setting it for the first time
+2020-06-17 08:48:33.720 Eyes: [LOG    ] {00000251809895315496} com.applitools.eyes.appium.AppiumScrollPositionProvider.getCachedContentSize(): WARNING: No active scroll element, so no content size to retrieve
+2020-06-17 08:48:33.729 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.appium.AndroidScrollPositionProvider.checkCurrentScrollPosition(): Last scroll data from the server was: null
+2020-06-17 08:48:33.729 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.appium.AndroidScrollPositionProvider.getScrollPosFromScrollData(): Getting scroll position from last scroll data (null) and contentSize (null)
+2020-06-17 08:48:33.729 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.appium.AndroidScrollPositionProvider.getScrollPosFromScrollData(): Did not get last scroll data; assume there was no more scroll
+2020-06-17 08:48:33.729 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.appium.AndroidScrollPositionProvider.getScrollPosFromScrollData(): Since we're scrolling up, just say we reached 0, 0
+2020-06-17 08:48:33.729 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.appium.AndroidScrollPositionProvider.getCurrentPosition(): The current scroll position is (0, 0)
+2020-06-17 08:48:33.730 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.appium.AppiumFullPageCaptureAlgorithm.moveToTopLeft(): Moving to the top left of the screen
+2020-06-17 08:48:33.730 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.appium.AndroidScrollPositionProvider.getCurrentPosition(): AndroidScrollPositionProvider - getCurrentPosition()
+2020-06-17 08:48:33.730 Eyes: [VERBOSE] {00000251809895315496} com.applitools.eyes.appium.AndroidScrollPositionProvider.getScrollableViewLocation(): Getting the location of the scrollable view..

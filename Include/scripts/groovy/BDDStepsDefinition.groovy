@@ -299,8 +299,8 @@ class BDDStepsDefinition {
 		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/card_Saved Products'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/card_My Details'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/card_US English Local'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
-		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/card_Notifications'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		CustomKeywords.'custom.keywords.scrollToText'('Privacy Policy', findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/lnk_Privacy Policy'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/card_Notifications'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/lnk_Log out'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/lnk_Privacy Policy'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/lnk_Terms  Conditions'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
@@ -362,6 +362,91 @@ class BDDStepsDefinition {
 
 		//Verify that user has successfully logged out
 		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Account - Page/lbl_I already have an account'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.closeApplication'()
+	}
+	
+	//******************************Process Now - Edit LRP******************************
+	
+	@Given("I have successfully authenticated my (.*) with (.*) and (.*)")
+	def authenticateUser(String userName, String id, String password) {
+		//Click on ACCOUNT icon
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Bottom Nav/icn_ACCOUNT'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Click on I already have an account button
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Account - Page/lbl_I already have an account'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify Log in button is disabled
+		this.validateLoginButtonDisabled()
+		
+		//Enter ID
+		CustomKeywords.'custom.keywords.setText'(findTestObject('Object Repository/doTERRA-MobileApp/Log in - Page/txt_Enter your email or ID'), 'enabled', 'true', id, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify Log in button is disabled
+		this.validateLoginButtonDisabled()
+		
+		//Enter password
+		CustomKeywords.'custom.keywords.setEncryptedText'(findTestObject('Object Repository/doTERRA-MobileApp/Log in - Page/txt_Enter your password'), 'enabled', 'true', password, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify Log in button becomes enabled
+		this.verifyLoginButtonEnabled()
+		
+		//Click on Log in button
+		this.clickLoginButton()
+		
+		//Verify right user was authenticated
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/lbl_Lucas'), userName, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+	}
+	
+	@When("I click on SHOP icon")
+	def clickShopScrollToOrder() {
+		//Click on SHOP icon
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Bottom Nav/icn_SHOP'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify Shop page is displaying
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_My Loyalty Rewards'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Your percentage back'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+	}
+	
+	@When("I edit my Scheduled Loyalty Order and click on Save and Process Now button")
+	def verifySheduledLoyaltyOrders() {
+		//Scroll to Scheduled Loyalty Order then click on edit
+		CustomKeywords.'custom.keywords.swipeDown'(1)
+		
+		//Get PV and Order Total values
+		String pv = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_PV 45.0'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		pv = pv.minus(".0")
+		def pvValue = pv.toInteger()
+		
+		String total = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Total 16700'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		total = total.minus("¥")
+		total = total.minus(",")		
+		def totalValue = total.toInteger()
+		
+		//Edit order and swipe down
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/icn_Edit Scheduled Loyalty Order'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.swipeDown'(4)
+		
+		//Get PV value and compare it to the value before edit
+		String pv2 = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/lbl_Order Summary PV Earned'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		pv2 = pv2.minus(".00")
+		def pvValue2 = pv2.toInteger()
+		CustomKeywords.'custom.keywords.verifyNumbersAreEqual'(pvValue2, pvValue)
+		
+		//Get Order Total value and compare it to the value before edit
+		String total2 = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/lbl_Order Summary Total'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		total2 = total2.minus("¥")
+		total2 = total2.minus(",")
+		def totalValue2 = total2.toInteger()
+		CustomKeywords.'custom.keywords.verifyNumbersAreEqual'(totalValue2, totalValue)
+		
+		//Click on Save and Process Now button
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/btn_Save and Process Now'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+	}
+	
+	@Then("I should see Loyalty Order Confirmation screen")
+	def verifyOrderConfirmationScreen() {
+		//Verify Loyalty Order Confirmation screen is displaying
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Loyalty Order Confirmation - Page/lbl_Your Loyalty Order is Now Setup'), 'Your Loyalty Order is Now Setup!', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		CustomKeywords.'custom.keywords.closeApplication'()
 	}
 }

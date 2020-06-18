@@ -7,6 +7,8 @@ import java.lang.String
 
 import com.kms.katalon.core.testobject.TestObject
 
+import java.lang.Object
+
 import com.applitools.eyes.RectangleSize
 
 import com.applitools.eyes.selenium.Eyes
@@ -24,6 +26,18 @@ def static "com.kms.katalon.keyword.applitools.BasicKeywords.checkTestObject"(
     (new com.kms.katalon.keyword.applitools.BasicKeywords()).checkTestObject(
         	testObject
          , 	testName)
+}
+
+def static "custom.keywords.scrollListToElementWithText"(
+    	String elementText	) {
+    (new custom.keywords()).scrollListToElementWithText(
+        	elementText)
+}
+
+def static "custom.keywords.swipeDown"(
+    	int swipes	) {
+    (new custom.keywords()).swipeDown(
+        	swipes)
 }
 
 def static "custom.keywords.startApplication"(
@@ -84,6 +98,22 @@ def static "custom.keywords.setText"(
          , 	delay)
 }
 
+def static "custom.keywords.setEncryptedText"(
+    	TestObject to	
+     , 	String attributeName	
+     , 	String attributeValue	
+     , 	String text	
+     , 	int timeout	
+     , 	int delay	) {
+    (new custom.keywords()).setEncryptedText(
+        	to
+         , 	attributeName
+         , 	attributeValue
+         , 	text
+         , 	timeout
+         , 	delay)
+}
+
 def static "custom.keywords.scrollToText"(
     	String text	
      , 	TestObject to	
@@ -92,6 +122,16 @@ def static "custom.keywords.scrollToText"(
     (new custom.keywords()).scrollToText(
         	text
          , 	to
+         , 	timeout
+         , 	delay)
+}
+
+def static "custom.keywords.getText"(
+    	TestObject to	
+     , 	int timeout	
+     , 	int delay	) {
+    (new custom.keywords()).getText(
+        	to
          , 	timeout
          , 	delay)
 }
@@ -106,6 +146,22 @@ def static "custom.keywords.getTextAndVerifyMatch"(
          , 	expectedText
          , 	timeout
          , 	delay)
+}
+
+def static "custom.keywords.verifyMatch"(
+    	String actualText	
+     , 	String expectedText	) {
+    (new custom.keywords()).verifyMatch(
+        	actualText
+         , 	expectedText)
+}
+
+def static "custom.keywords.verifyNumbersAreEqual"(
+    	Object actualNumber	
+     , 	Object expectedNumber	) {
+    (new custom.keywords()).verifyNumbersAreEqual(
+        	actualNumber
+         , 	expectedNumber)
 }
 
 def static "custom.keywords.closeApplication"() {

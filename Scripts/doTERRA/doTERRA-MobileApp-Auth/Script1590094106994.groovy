@@ -24,9 +24,9 @@ Mobile.startApplication(GlobalVariable.G_AndroidApp, true)
 //Mobile.tap(findTestObject('Object Repository/doTERRA-MobileApp/Already have an account - Dialog/btn_X'), GlobalVariable.G_Timeout_Long)
 //
 ////Verify Shop page displaying
-//Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/btn_Browse All Products'), GlobalVariable.G_Timeout_Long)
-//Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/card_Single Oils'), GlobalVariable.G_Timeout_Long)
-//Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/card_Blend Oils'), GlobalVariable.G_Timeout_Long)
+//Mobile.verifyElementExist(findTestObject('null'), GlobalVariable.G_Timeout_Long)
+//Mobile.verifyElementExist(findTestObject('null'), GlobalVariable.G_Timeout_Long)
+//Mobile.verifyElementExist(findTestObject('null'), GlobalVariable.G_Timeout_Long)
 //
 ////Click on Account icon in the bottom nav
 //Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Bottom Nav/icn_ACCOUNT'), GlobalVariable.G_Timeout_Long)
@@ -101,8 +101,8 @@ Mobile.startApplication(GlobalVariable.G_AndroidApp, true)
 //Mobile.tap(findTestObject('Object Repository/doTERRA-MobileApp/Bag - Page/btn_Start Shopping'), GlobalVariable.G_Timeout_Long)
 //
 ////Validate that user have 700.00 rewards points
-//Mobile.verifyElementExist(findTestObject('doTERRA-MobileApp/Shop - Page/lbl_0.00'), GlobalVariable.G_Timeout_Long)
-//String rewardPoints = Mobile.getText(findTestObject('doTERRA-MobileApp/Shop - Page/lbl_0.00'), GlobalVariable.G_Timeout_Long)
+//Mobile.verifyElementExist(findTestObject('null'), GlobalVariable.G_Timeout_Long)
+//String rewardPoints = Mobile.getText(findTestObject('null'), GlobalVariable.G_Timeout_Long)
 //Mobile.verifyMatch(rewardPoints, '700.00', false)
 //
 ////Click on ACCOUNT icon in bottom nav
