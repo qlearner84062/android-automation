@@ -37,13 +37,13 @@ import com.kms.katalon.core.testobject.ConditionType
 import com.kms.katalon.core.testobject.TestObjectProperty
 
 import com.kms.katalon.core.mobile.helper.MobileElementCommonHelper
-import com.kms.katalon.core.util.KeywordUtil
 
 import com.kms.katalon.core.webui.exception.WebElementNotFoundException
 import io.appium.java_client.AppiumDriver
 import io.appium.java_client.MobileElement
 import io.appium.java_client.TouchAction
 import io.appium.java_client.android.AndroidElement
+import com.kms.katalon.core.util.KeywordUtil
 
 
 class keywords {
@@ -55,7 +55,7 @@ class keywords {
 
 	private scrollEntireList() {
 		// very specific to android and the type of element that makes up your dropdowns
-		ArrayList listElement = driver.findElementsByClassName("android.widget.CheckedTextView")
+		ArrayList listElement = driver.findElementsByClassName("android.widget.Button")
 		TouchAction touchAction = new TouchAction(driver)
 		def bottomElement = listElement[listElement.size() - 1]
 		def topElement = listElement[0]
@@ -68,7 +68,7 @@ class keywords {
 		boolean isElementFound = false;
 		while (isElementFound == false) {
 			// very specific to android and the type of element that makes up your dropdowns
-			ArrayList listElement = driver.findElementsByClassName("android.widget.CheckedTextView")
+			ArrayList listElement = driver.findElementsByClassName("android.widget.Button")
 			for (int i = 0; i<listElement.size(); i++) {
 				String textItem = ((MobileElement)listElement[i]).getText()
 				if (textItem == elementText) {
@@ -88,8 +88,21 @@ class keywords {
 			int startX = device_Width / 2
 			int endX = startX
 			int startY = device_Height * 0.30
-			int endY = device_Height * 0.70
+			int endY = device_Height * 0.69
 			Mobile.swipe(startX, endY, endX, startY)
+		}
+	}
+
+	@Keyword
+	def swipeUp(int swipes) {
+		for(int i = 0; i < swipes; i++) {
+			int device_Height = Mobile.getDeviceHeight()
+			int device_Width = Mobile.getDeviceWidth()
+			int startX = device_Width / 2
+			int endX = startX
+			int startY = device_Height * 0.30
+			int endY = device_Height * 0.69
+			Mobile.swipe(startX, startY, endX, endY)
 		}
 	}
 

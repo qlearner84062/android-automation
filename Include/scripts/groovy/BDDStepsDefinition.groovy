@@ -21,16 +21,21 @@ import internal.GlobalVariable
 
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.WebDriver
+import org.junit.After
 import org.openqa.selenium.By
 
 import com.kms.katalon.core.mobile.keyword.internal.MobileDriverFactory
 import com.kms.katalon.core.webui.driver.DriverFactory
+import com.detroitlabs.katalonmobileutil.touch.Swipe
+import com.detroitlabs.katalonmobileutil.touch.Swipe.SwipeDirection
 
 import com.kms.katalon.core.testobject.RequestObject
 import com.kms.katalon.core.testobject.ResponseObject
 import com.kms.katalon.core.testobject.ConditionType
 import com.kms.katalon.core.testobject.TestObjectProperty
-
+import static com.kms.katalon.core.testobject.ObjectRepository.findTestObject
+import io.appium.java_client.AppiumDriver as AppiumDriver
+import io.appium.java_client.MobileElement
 import com.kms.katalon.core.mobile.helper.MobileElementCommonHelper
 import com.kms.katalon.core.util.KeywordUtil
 
@@ -41,6 +46,13 @@ import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 
+import com.detroitlabs.katalonmobileutil.device.App
+import com.detroitlabs.katalonmobileutil.device.Device
+import com.detroitlabs.katalonmobileutil.testobject.Finder
+import com.detroitlabs.katalonmobileutil.testobject.TestObjectType
+import org.openqa.selenium.By
+import com.kms.katalon.core.testobject.TestObject
+import com.detroitlabs.katalonmobileutil.testobject.TestObjectConverter
 
 
 class BDDStepsDefinition {
@@ -243,6 +255,10 @@ class BDDStepsDefinition {
 		//Launch application
 		CustomKeywords.'custom.keywords.startApplication'(GlobalVariable.G_AndroidApp, findTestObject('Object Repository/doTERRA-MobileApp/Already have an account - Dialog/btn_X'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort, true)
 		
+		//Get mobile operating system
+		String getMobileOS = Device.getDeviceOS()
+		System.out.println("getMobileOS: " + getMobileOS)
+		
 		//Close Already have an account dialog
 		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Already have an account - Dialog/btn_X'), 'clickable', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
@@ -390,6 +406,7 @@ class BDDStepsDefinition {
 		//Verify Log in button becomes enabled
 		this.verifyLoginButtonEnabled()
 		
+		
 		//Click on Log in button
 		this.clickLoginButton()
 		
@@ -408,7 +425,7 @@ class BDDStepsDefinition {
 	}
 	
 	@When("I edit my Scheduled Loyalty Order and click on Save and Process Now button")
-	def verifySheduledLoyaltyOrders() {
+	def verifySheduledLoyaltyOrder() {
 		//Scroll to Scheduled Loyalty Order then click on edit
 		CustomKeywords.'custom.keywords.swipeDown'(1)
 		
@@ -448,5 +465,151 @@ class BDDStepsDefinition {
 		//Verify Loyalty Order Confirmation screen is displaying
 		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Loyalty Order Confirmation - Page/lbl_Your Loyalty Order is Now Setup'), 'Your Loyalty Order is Now Setup!', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		CustomKeywords.'custom.keywords.closeApplication'()
+	}
+	
+	//******************************Process on a Later Date - Edit LRP******************************
+	
+	@When("I edit my Scheduled Loyalty Order and click on Save and Process on later date button")
+	def verifySheduledLoyaltyOrderOnLaterDate() {
+		//Scroll to Scheduled Loyalty Order then click on edit
+		CustomKeywords.'custom.keywords.swipeDown'(1)
+		
+		//Get PV and Order Total values
+		String pv = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_PV 45.0'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		pv = pv.minus(".0")
+		def pvValue = pv.toInteger()
+		
+		String total = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Total 16700'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		total = total.minus("¥")
+		total = total.minus(",")
+		def totalValue = total.toInteger()
+		
+		//Edit order and swipe down
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/icn_Edit Scheduled Loyalty Order'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.swipeDown'(4)
+		
+		//Get PV value and compare it to the value before edit
+		String pv2 = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/lbl_Order Summary PV Earned'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		pv2 = pv2.minus(".00")
+		def pvValue2 = pv2.toInteger()
+		CustomKeywords.'custom.keywords.verifyNumbersAreEqual'(pvValue2, pvValue)
+		
+		//Get Order Total value and compare it to the value before edit
+		String total2 = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/lbl_Order Summary Total'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		total2 = total2.minus("¥")
+		total2 = total2.minus(",")
+		def totalValue2 = total2.toInteger()
+		CustomKeywords.'custom.keywords.verifyNumbersAreEqual'(totalValue2, totalValue)
+		
+		//Click on Save and Process On button
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/btn_Save and Process on'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+	}
+	
+	//******************************Edit LRP - Add Product - Process on a Later Date******************************
+	
+	@When("I edit my Scheduled Loyalty Order and add (.*) product")
+	def verifySheduledLoyaltyOrdersAddProduct(String product) {
+		//Scroll to Scheduled Loyalty Order then click on edit
+		CustomKeywords.'custom.keywords.swipeDown'(1)
+		
+		//Edit order
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/icn_Edit Scheduled Loyalty Order'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Tap search bar
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Name PV or Item number'), 'clickable', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Search for a OnGuard product
+		CustomKeywords.'custom.keywords.setText'(findTestObject('Object Repository/doTERRA-MobileApp/Loyalty Order Search Product - Page/txt_Name or Item number'), 'enabled', 'true', product, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Get and verify product name
+		String productName = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Loyalty Order Search Product - Page/lbl_OnGuard  Softgels'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		System.out.println('productName: ' + productName)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Loyalty Order Search Product - Page/lbl_OnGuard  Softgels'), 'OnGuard + Softgels', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Get product price
+		String productPrice = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Loyalty Order Search Product - Page/lbl_OnGuard Price'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		System.out.println('productPrice: ' + productPrice)
+		
+		//Get product PV
+		String productPV = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Loyalty Order Search Product - Page/lbl_OnGuard PV'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		System.out.println('productPV: ' + productPV)
+		
+		//Tap to add product
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Loyalty Order Search Product - Page/icn_Add to Bag'), 'clickable', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify that Edit Loyalty Order page is displaying
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/lbl_Add Additional Products'), 'text', 'Add Additional Products', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify product name
+		CustomKeywords.'custom.keywords.swipeDown'(1)
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/lbl_OnGuard Softgels'), 'text', 'OnGuard + Softgels', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify product price
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/lbl_OnGuard Price'), productPrice, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify product PV
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/lbl_OnGuard PV'), productPV, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)	
+		
+		//Verify product quantity
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/lbl_Order3 Quantity'), '1', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+	}
+	
+	@When("I click on Save and Process on button")
+	def clickOnSaveAndProcessOnButton() {
+		//Swipe down and click on Save and Process on button
+		CustomKeywords.'custom.keywords.swipeDown'(3)
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/btn_Save and Process on'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+	}
+	
+	@Then("I should see Order Confirmation screen")
+	def verifyOrderConfirmationScreenWithoutClosingApp() {
+		//Verify order confirmation screen
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Loyalty Order Confirmation - Page/lbl_Your Loyalty Order is Now Setup'), 'Your Loyalty Order is Now Setup!', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+	}
+	
+	@When("I click on Back to Home button")
+	def clickBackToHomeButton() {
+		//Click on Back to Home button
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Loyalty Order Confirmation - Page/btn_Back to Home'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+	}
+	
+	@Then("I should see Scheduled Loyalty Order with added product")
+	def verifyScheduledLoyaltyOrderHaveAddedProduct() {
+		//Verify PV point total with added product
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_PV Amount'), '73.0', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify order total with added product
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Total Amount'), '¥20,500', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify order date
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Sheculed Loyalty Order Date'), 'Jul 2', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+	}
+	
+	@When("I edit my Scheduled Loyalty Order and and change added product quantity to zero")
+	def eidtLoyaltyOrderAndChangeProductQuantityToZero() {
+		//Edit Scheduled Loyalty Order
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/icn_Edit Scheduled Loyalty Order'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		Mobile.waitForElementPresent(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/lbl_Your Order'), 10)
+		CustomKeywords.'custom.keywords.swipeDown'(1)
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/img_doTERRA Console Arrow'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Select Quantity - Dialog/lst_NumberPicker'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		boolean bntDone = Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Select Quantity - Dialog/btn_Done'), GlobalVariable.G_Timeout_Long)
+		System.out.println("bntDone: " + bntDone)
+		boolean btnCancel = Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Select Quantity - Dialog/btn_Cancel'), GlobalVariable.G_Timeout_Long)
+		System.out.println("btnCancel: " + btnCancel)
+		boolean numPicker = Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Select Quantity - Dialog/lst_NumberPicker'), GlobalVariable.G_Timeout_Long)
+		System.out.println("numPicker: " + numPicker)
+		String value2 = Mobile.getText(findTestObject('Object Repository/doTERRA-MobileApp/Select Quantity - Dialog/opt_0'), GlobalVariable.G_Timeout_Long)
+		System.out.println("value2: " + value2)
+		
+		
+		
+//		AppiumDriver<MobileElement> driver = (AppiumDriver<MobileElement>) MobileDriverFactory.getDriver()
+//		List<MobileElement> mobileElements = driver.findElements(By.xpath('//android.widget.FrameLayout[1]/android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.view.ViewGroup[1]/androidx.recyclerview.widget.RecyclerView[1]/android.view.ViewGroup[3]/android.widget.LinearLayout[1]/android.widget.ImageView[1]'))
+//		List<TestObject> testObjects = TestObjectConverter.fromElements(mobileElements)
+//		int listSize = testObjects.size()
+//		System.out.println('listSize: ' + listSize)	
+//		TestObject arrow = TestObjectConverter.fromElement(mobileElements.get(0))
+//		CustomKeywords.'custom.keywords.tap'(arrow, 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
 }

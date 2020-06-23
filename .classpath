@@ -139,6 +139,7 @@
 			<attribute name="javadoc_location" value="file:/F:/Katalon%20Studio/Katalon_Studio_Windows_64-7.4.0/configuration/resources/apidocs/com.kms.katalon.core.testng/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="F:/android-automation/Drivers/katalon-mobile-util-1.14.1.jar"/>
 	<classpathentry kind="lib" path="F:/android-automation/Drivers/katalon_generated_animal-sniffer-annotations-1.14.jar"/>
 	<classpathentry kind="lib" path="F:/android-automation/Drivers/katalon_generated_ant-1.9.6.jar"/>
 	<classpathentry kind="lib" path="F:/android-automation/Drivers/katalon_generated_ant-launcher-1.9.6.jar"/>
