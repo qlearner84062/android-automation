@@ -3,35 +3,37 @@
  * This class is generated automatically by Katalon Studio and should not be modified or deleted.
  */
 
-import java.lang.String
-
 import com.kms.katalon.core.testobject.TestObject
+
+import java.lang.String
 
 import java.lang.Object
 
-import com.applitools.eyes.RectangleSize
 
-import com.applitools.eyes.selenium.Eyes
-
-
-def static "com.kms.katalon.keyword.applitools.BasicKeywords.checkWindow"(
-    	String testName	) {
-    (new com.kms.katalon.keyword.applitools.BasicKeywords()).checkWindow(
-        	testName)
+def static "custom.keywords.numberPickerSelectQuantity"(
+    	int expectedQuantity	
+     , 	TestObject selectedQuantity	) {
+    (new custom.keywords()).numberPickerSelectQuantity(
+        	expectedQuantity
+         , 	selectedQuantity)
 }
 
-def static "com.kms.katalon.keyword.applitools.BasicKeywords.checkTestObject"(
-    	TestObject testObject	
-     , 	String testName	) {
-    (new com.kms.katalon.keyword.applitools.BasicKeywords()).checkTestObject(
-        	testObject
-         , 	testName)
+def static "custom.keywords.getElementByText"(
+    	String text	) {
+    (new custom.keywords()).getElementByText(
+        	text)
 }
 
-def static "custom.keywords.scrollListToElementWithText"(
-    	String elementText	) {
-    (new custom.keywords()).scrollListToElementWithText(
-        	elementText)
+def static "custom.keywords.getTextViewElementByText"(
+    	String text	) {
+    (new custom.keywords()).getTextViewElementByText(
+        	text)
+}
+
+def static "custom.keywords.scrollToTextViewElement"(
+    	String text	) {
+    (new custom.keywords()).scrollToTextViewElement(
+        	text)
 }
 
 def static "custom.keywords.swipeDown"(
@@ -44,6 +46,26 @@ def static "custom.keywords.swipeUp"(
     	int swipes	) {
     (new custom.keywords()).swipeUp(
         	swipes)
+}
+
+def static "custom.keywords.scrollDown"() {
+    (new custom.keywords()).scrollDown()
+}
+
+def static "custom.keywords.scrollUp"() {
+    (new custom.keywords()).scrollUp()
+}
+
+def static "custom.keywords.multiScroll"(
+    	int times	
+     , 	double startY	
+     , 	double endY	
+     , 	int durationInSec	) {
+    (new custom.keywords()).multiScroll(
+        	times
+         , 	startY
+         , 	endY
+         , 	durationInSec)
 }
 
 def static "custom.keywords.startApplication"(
@@ -120,18 +142,6 @@ def static "custom.keywords.setEncryptedText"(
          , 	delay)
 }
 
-def static "custom.keywords.scrollToText"(
-    	String text	
-     , 	TestObject to	
-     , 	int timeout	
-     , 	int delay	) {
-    (new custom.keywords()).scrollToText(
-        	text
-         , 	to
-         , 	timeout
-         , 	delay)
-}
-
 def static "custom.keywords.getText"(
     	TestObject to	
      , 	int timeout	
@@ -186,32 +196,4 @@ def static "custom.keywords.getRandomString"(
     	int length	) {
     (new custom.keywords()).getRandomString(
         	length)
-}
-
-def static "com.kms.katalon.keyword.applitools.EyesKeywords.eyesOpenWithBaseline"(
-    	String baselineName	
-     , 	String testName	
-     , 	RectangleSize viewportSize	) {
-    (new com.kms.katalon.keyword.applitools.EyesKeywords()).eyesOpenWithBaseline(
-        	baselineName
-         , 	testName
-         , 	viewportSize)
-}
-
-def static "com.kms.katalon.keyword.applitools.EyesKeywords.eyesClose"(
-    	Eyes eyes	) {
-    (new com.kms.katalon.keyword.applitools.EyesKeywords()).eyesClose(
-        	eyes)
-}
-
-def static "com.kms.katalon.keyword.applitools.EyesKeywords.eyesOpen"(
-    	String testName	
-     , 	RectangleSize viewportSize	) {
-    (new com.kms.katalon.keyword.applitools.EyesKeywords()).eyesOpen(
-        	testName
-         , 	viewportSize)
-}
-
-def static "com.kms.katalon.keyword.applitools.EyesKeywords.eyesInit"() {
-    (new com.kms.katalon.keyword.applitools.EyesKeywords()).eyesInit()
 }

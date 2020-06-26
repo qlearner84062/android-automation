@@ -34,8 +34,6 @@ import com.kms.katalon.core.testobject.ResponseObject
 import com.kms.katalon.core.testobject.ConditionType
 import com.kms.katalon.core.testobject.TestObjectProperty
 import static com.kms.katalon.core.testobject.ObjectRepository.findTestObject
-import io.appium.java_client.AppiumDriver as AppiumDriver
-import io.appium.java_client.MobileElement
 import com.kms.katalon.core.mobile.helper.MobileElementCommonHelper
 import com.kms.katalon.core.util.KeywordUtil
 
@@ -50,9 +48,27 @@ import com.detroitlabs.katalonmobileutil.device.App
 import com.detroitlabs.katalonmobileutil.device.Device
 import com.detroitlabs.katalonmobileutil.testobject.Finder
 import com.detroitlabs.katalonmobileutil.testobject.TestObjectType
-import org.openqa.selenium.By
-import com.kms.katalon.core.testobject.TestObject
 import com.detroitlabs.katalonmobileutil.testobject.TestObjectConverter
+import io.appium.java_client.android.AndroidElement
+import com.detroitlabs.katalonmobileutil.touch.Scroll
+import com.detroitlabs.katalonmobileutil.touch.Scroll.ScrollFactor
+
+import java.net.MalformedURLException
+import java.net.URL
+import java.time.Duration
+import java.util.concurrent.TimeUnit
+import org.openqa.selenium.Dimension
+import org.openqa.selenium.remote.DesiredCapabilities
+import io.appium.java_client.AppiumDriver as AppiumDriver
+import io.appium.java_client.MobileElement
+import io.appium.java_client.TouchAction
+import io.appium.java_client.android.AndroidDriver
+import io.appium.java_client.MobileDriver
+import io.appium.java_client.remote.MobileCapabilityType
+import java.lang.Object
+import io.appium.java_client.touch.offset.PointOption
+import io.appium.java_client.touch.WaitOptions
+
 
 
 class BDDStepsDefinition {
@@ -392,19 +408,19 @@ class BDDStepsDefinition {
 		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Account - Page/lbl_I already have an account'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
 		//Verify Log in button is disabled
-		this.validateLoginButtonDisabled()
+//		this.validateLoginButtonDisabled()
 		
 		//Enter ID
 		CustomKeywords.'custom.keywords.setText'(findTestObject('Object Repository/doTERRA-MobileApp/Log in - Page/txt_Enter your email or ID'), 'enabled', 'true', id, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
 		//Verify Log in button is disabled
-		this.validateLoginButtonDisabled()
+//		this.validateLoginButtonDisabled()
 		
 		//Enter password
 		CustomKeywords.'custom.keywords.setEncryptedText'(findTestObject('Object Repository/doTERRA-MobileApp/Log in - Page/txt_Enter your password'), 'enabled', 'true', password, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
 		//Verify Log in button becomes enabled
-		this.verifyLoginButtonEnabled()
+//		this.verifyLoginButtonEnabled()
 		
 		
 		//Click on Log in button
@@ -472,7 +488,7 @@ class BDDStepsDefinition {
 	@When("I edit my Scheduled Loyalty Order and click on Save and Process on later date button")
 	def verifySheduledLoyaltyOrderOnLaterDate() {
 		//Scroll to Scheduled Loyalty Order then click on edit
-		CustomKeywords.'custom.keywords.swipeDown'(1)
+		CustomKeywords.'custom.keywords.scrollToText'('Scheduled Loyalty Orders')
 		
 		//Get PV and Order Total values
 		String pv = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_PV 45.0'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
@@ -509,8 +525,8 @@ class BDDStepsDefinition {
 	
 	@When("I edit my Scheduled Loyalty Order and add (.*) product")
 	def verifySheduledLoyaltyOrdersAddProduct(String product) {
-		//Scroll to Scheduled Loyalty Order then click on edit
-		CustomKeywords.'custom.keywords.swipeDown'(1)
+		//Scroll to Scheduled Loyalty Order then click on edit		
+		CustomKeywords.'custom.keywords.multiScroll'(2, 0.5, 0.1, 3)
 		
 		//Edit order
 		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/icn_Edit Scheduled Loyalty Order'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
@@ -523,7 +539,6 @@ class BDDStepsDefinition {
 		
 		//Get and verify product name
 		String productName = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Loyalty Order Search Product - Page/lbl_OnGuard  Softgels'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
-		System.out.println('productName: ' + productName)
 		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Loyalty Order Search Product - Page/lbl_OnGuard  Softgels'), 'OnGuard + Softgels', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
 		//Get product price
@@ -539,9 +554,9 @@ class BDDStepsDefinition {
 		
 		//Verify that Edit Loyalty Order page is displaying
 		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/lbl_Add Additional Products'), 'text', 'Add Additional Products', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
-		
+	
 		//Verify product name
-		CustomKeywords.'custom.keywords.swipeDown'(1)
+		CustomKeywords.'custom.keywords.multiScroll'(2, 0.5, 0.15, 3)
 		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/lbl_OnGuard Softgels'), 'text', 'OnGuard + Softgels', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
 		//Verify product price
@@ -557,7 +572,7 @@ class BDDStepsDefinition {
 	@When("I click on Save and Process on button")
 	def clickOnSaveAndProcessOnButton() {
 		//Swipe down and click on Save and Process on button
-		CustomKeywords.'custom.keywords.swipeDown'(3)
+		CustomKeywords.'custom.keywords.multiScroll'(3, 0.7, 0.1, 1)
 		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/btn_Save and Process on'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
 	
@@ -589,27 +604,20 @@ class BDDStepsDefinition {
 	def eidtLoyaltyOrderAndChangeProductQuantityToZero() {
 		//Edit Scheduled Loyalty Order
 		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/icn_Edit Scheduled Loyalty Order'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
-		Mobile.waitForElementPresent(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/lbl_Your Order'), 10)
-		CustomKeywords.'custom.keywords.swipeDown'(1)
-		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/img_doTERRA Console Arrow'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
-		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Select Quantity - Dialog/lst_NumberPicker'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
-		boolean bntDone = Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Select Quantity - Dialog/btn_Done'), GlobalVariable.G_Timeout_Long)
-		System.out.println("bntDone: " + bntDone)
-		boolean btnCancel = Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Select Quantity - Dialog/btn_Cancel'), GlobalVariable.G_Timeout_Long)
-		System.out.println("btnCancel: " + btnCancel)
-		boolean numPicker = Mobile.verifyElementExist(findTestObject('Object Repository/doTERRA-MobileApp/Select Quantity - Dialog/lst_NumberPicker'), GlobalVariable.G_Timeout_Long)
-		System.out.println("numPicker: " + numPicker)
-		String value2 = Mobile.getText(findTestObject('Object Repository/doTERRA-MobileApp/Select Quantity - Dialog/opt_0'), GlobalVariable.G_Timeout_Long)
-		System.out.println("value2: " + value2)
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/lbl_Your Order'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
+		//Scroll down to the OnGuard + Softgels item than click on quantity arrow button
+		CustomKeywords.'custom.keywords.multiScroll'(2, 0.5, 0.15, 3)
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/img_OnGuard Softgels Arrow'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
+		//Tap on number picker object to get dialog in focus
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Select Quantity - Dialog/obj_NumberPicker'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)	
 		
-//		AppiumDriver<MobileElement> driver = (AppiumDriver<MobileElement>) MobileDriverFactory.getDriver()
-//		List<MobileElement> mobileElements = driver.findElements(By.xpath('//android.widget.FrameLayout[1]/android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.view.ViewGroup[1]/androidx.recyclerview.widget.RecyclerView[1]/android.view.ViewGroup[3]/android.widget.LinearLayout[1]/android.widget.ImageView[1]'))
-//		List<TestObject> testObjects = TestObjectConverter.fromElements(mobileElements)
-//		int listSize = testObjects.size()
-//		System.out.println('listSize: ' + listSize)	
-//		TestObject arrow = TestObjectConverter.fromElement(mobileElements.get(0))
-//		CustomKeywords.'custom.keywords.tap'(arrow, 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		//Change quantity to zero and click on Done button
+		CustomKeywords.'custom.keywords.numberPickerSelectQuantity'(0, findTestObject('Object Repository/doTERRA-MobileApp/Select Quantity - Dialog/opt_Quantity Selected'))
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Select Quantity - Dialog/btn_Done'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Scroll down and click on Save and Process On button
+		this.clickOnSaveAndProcessOnButton()
 	}
 }

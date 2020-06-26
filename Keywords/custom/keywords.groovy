@@ -7,7 +7,7 @@ import static com.kms.katalon.core.testobject.ObjectRepository.findTestObject
 import com.kms.katalon.core.annotation.Keyword
 import com.kms.katalon.core.checkpoint.Checkpoint
 import com.kms.katalon.core.checkpoint.CheckpointFactory
-import com.kms.katalon.core.mobile.keyword.MobileBuiltInKeywords
+import com.kms.katalon.core.mobile.keyword.MobileBuiltInKeywords as Mobile
 import com.kms.katalon.core.model.FailureHandling
 import com.kms.katalon.core.testcase.TestCase
 import com.kms.katalon.core.testcase.TestCaseFactory
@@ -15,68 +15,122 @@ import com.kms.katalon.core.testdata.TestData
 import com.kms.katalon.core.testdata.TestDataFactory
 import com.kms.katalon.core.testobject.ObjectRepository
 import com.kms.katalon.core.testobject.TestObject
-import com.kms.katalon.core.webservice.keyword.WSBuiltInKeywords
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords
+import com.kms.katalon.core.webservice.keyword.WSBuiltInKeywords as WS
+import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable
 
-import MobileBuiltInKeywords as Mobile
-import WSBuiltInKeywords as WS
-import WebUiBuiltInKeywords as WebUI
-
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.WebDriver
+import org.junit.After
 import org.openqa.selenium.By
 
-import com.kms.katalon.core.mobile.keyword.internal.MobileDriverFactory as MobileDriverFactory
+import com.kms.katalon.core.mobile.keyword.internal.MobileDriverFactory
 import com.kms.katalon.core.webui.driver.DriverFactory
+import com.detroitlabs.katalonmobileutil.touch.Swipe
+import com.detroitlabs.katalonmobileutil.touch.Swipe.SwipeDirection
 
 import com.kms.katalon.core.testobject.RequestObject
 import com.kms.katalon.core.testobject.ResponseObject
 import com.kms.katalon.core.testobject.ConditionType
 import com.kms.katalon.core.testobject.TestObjectProperty
-
+import static com.kms.katalon.core.testobject.ObjectRepository.findTestObject
 import com.kms.katalon.core.mobile.helper.MobileElementCommonHelper
+import com.kms.katalon.core.util.KeywordUtil
 
 import com.kms.katalon.core.webui.exception.WebElementNotFoundException
-import io.appium.java_client.AppiumDriver
+
+import cucumber.api.java.en.And
+import cucumber.api.java.en.Given
+import cucumber.api.java.en.Then
+import cucumber.api.java.en.When
+
+import com.detroitlabs.katalonmobileutil.device.App
+import com.detroitlabs.katalonmobileutil.device.Device
+import com.detroitlabs.katalonmobileutil.testobject.Finder
+import com.detroitlabs.katalonmobileutil.testobject.TestObjectType
+import com.detroitlabs.katalonmobileutil.testobject.TestObjectConverter
+import io.appium.java_client.android.AndroidElement
+import com.detroitlabs.katalonmobileutil.touch.Scroll
+import com.detroitlabs.katalonmobileutil.touch.Scroll.ScrollFactor
+
+import java.net.MalformedURLException
+import java.net.URL
+import java.time.Duration
+import java.util.concurrent.TimeUnit
+import org.openqa.selenium.Dimension
+import org.openqa.selenium.remote.DesiredCapabilities
+import io.appium.java_client.AppiumDriver as AppiumDriver
 import io.appium.java_client.MobileElement
 import io.appium.java_client.TouchAction
-import io.appium.java_client.android.AndroidElement
-import com.kms.katalon.core.util.KeywordUtil
+import io.appium.java_client.android.AndroidDriver
+import io.appium.java_client.MobileDriver
+import io.appium.java_client.remote.MobileCapabilityType
+import java.lang.Object
+import io.appium.java_client.touch.offset.PointOption
+import io.appium.java_client.touch.WaitOptions
 
 
 class keywords {
-	AppiumDriver driver
 
-	def swiping() {
-		this.driver = MobileDriverFactory.getDriver()
-	}
-
-	private scrollEntireList() {
-		// very specific to android and the type of element that makes up your dropdowns
-		ArrayList listElement = driver.findElementsByClassName("android.widget.Button")
-		TouchAction touchAction = new TouchAction(driver)
-		def bottomElement = listElement[listElement.size() - 1]
-		def topElement = listElement[0]
-		// Press and scroll from the last element in the list all the way to the top
-		touchAction.press(bottomElement).moveTo(topElement).release().perform();
+	
+	@Keyword
+	def numberPickerSelectQuantity(int expectedQuantity, TestObject selectedQuantity) {
+		String getSelectedQuantity = this.getText(selectedQuantity, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		int actualQuantity = Integer.parseInt(getSelectedQuantity)
+		while(actualQuantity != expectedQuantity) {
+			if(actualQuantity > expectedQuantity) {
+				AppiumDriver<?> driver = MobileDriverFactory.getDriver()
+				Dimension dimension = driver.manage().window().getSize()
+				System.out.println("dimension: " + dimension)
+				double centerX = dimension.getWidth() / 2
+				int startX = centerX.intValue()
+				System.out.println("startX: " + startX)
+				double centerY = dimension.getHeight() / 2
+				int startY = centerY.intValue()
+				System.out.println("startY: " + startY)
+				int endY = startY + 200
+				TouchAction action = new TouchAction(driver)
+				action.press(PointOption.point(startX, startY)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3))).moveTo(PointOption.point(startX, endY)).release().perform()
+				getSelectedQuantity = this.getText(selectedQuantity, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+				actualQuantity = Integer.parseInt(getSelectedQuantity)
+			} else if(actualQuantity < expectedQuantity) {
+				AppiumDriver<?> driver = MobileDriverFactory.getDriver()
+				Dimension dimension = driver.manage().window().getSize()
+				System.out.println("dimension: " + dimension)
+				double centerX = dimension.getWidth() / 2
+				int startX = centerX.intValue()
+				System.out.println("startX: " + startX)
+				double centerY = dimension.getHeight() / 2
+				int startY = centerY.intValue()
+				System.out.println("startY: " + startY)
+				int endY = startY - 200
+				TouchAction action = new TouchAction(driver)
+				action.press(PointOption.point(startX, startY)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3))).moveTo(PointOption.point(startX, endY)).release().perform()
+				getSelectedQuantity = this.getText(selectedQuantity, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+				actualQuantity = Integer.parseInt(getSelectedQuantity)
+			}
+		}
 	}
 
 	@Keyword
-	def boolean scrollListToElementWithText(String elementText) {
-		boolean isElementFound = false;
-		while (isElementFound == false) {
-			// very specific to android and the type of element that makes up your dropdowns
-			ArrayList listElement = driver.findElementsByClassName("android.widget.Button")
-			for (int i = 0; i<listElement.size(); i++) {
-				String textItem = ((MobileElement)listElement[i]).getText()
-				if (textItem == elementText) {
-					isElementFound = true;
-					return true;
-				}
-			}
-			scrollEntireList()
+	def MobileElement getElementByText(String text) {
+		AppiumDriver<MobileElement> driver = (AppiumDriver<MobileElement>) MobileDriverFactory.getDriver()
+		MobileElement element = driver.findElement(By.xpath("//android.widget.TextView[@text='"+text+"']"))
+		return element
+	}
+
+	@Keyword
+	def List<MobileElement> getTextViewElementByText(String text) {
+		AppiumDriver<MobileElement> driver = (AppiumDriver<MobileElement>) MobileDriverFactory.getDriver()
+		List<MobileElement> elements = driver.findElements(By.xpath("//android.widget.TextView[@text='"+text+"']"))
+		return elements
+	}
+
+	@Keyword
+	def void scrollToTextViewElement(String text) throws InterruptedException {
+		while(this.getTextViewElementByText(text).size() == 0) {
+			this.multiScroll(1, 0.5, 0.15, 3)
 		}
 	}
 
@@ -88,7 +142,7 @@ class keywords {
 			int startX = device_Width / 2
 			int endX = startX
 			int startY = device_Height * 0.30
-			int endY = device_Height * 0.69
+			int endY = device_Height * 0.68
 			Mobile.swipe(startX, endY, endX, startY)
 		}
 	}
@@ -101,8 +155,46 @@ class keywords {
 			int startX = device_Width / 2
 			int endX = startX
 			int startY = device_Height * 0.30
-			int endY = device_Height * 0.69
+			int endY = device_Height * 0.68
 			Mobile.swipe(startX, startY, endX, endY)
+		}
+	}
+
+	@Keyword
+	def scrollDown() {
+		AppiumDriver<?> driver = MobileDriverFactory.getDriver()
+		Dimension dimension = driver.manage().window().getSize()
+		double scrollHeightStart = dimension.getHeight() * 0.8
+		int scrollStart = scrollHeightStart.intValue()
+		double scrollHeightEnd = dimension.getHeight() * 0.2
+		int scrollEnd = scrollHeightEnd.intValue()
+		TouchAction action = new TouchAction(driver)
+		action.press(PointOption.point(0, scrollStart)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(5))).moveTo(PointOption.point(0, scrollEnd)).release().perform()
+	}
+
+	@Keyword
+	def scrollUp() {
+		AppiumDriver<?> driver = MobileDriverFactory.getDriver()
+		Dimension dimension = driver.manage().window().getSize()
+		double scrollHeightStart = dimension.getHeight() * 0.2
+		int scrollStart = scrollHeightStart.intValue()
+		double scrollHeightEnd = dimension.getHeight() * 0.5
+		int scrollEnd = scrollHeightEnd.intValue()
+		TouchAction action = new TouchAction(driver)
+		action.press(PointOption.point(0, scrollStart)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(5))).moveTo(PointOption.point(0, scrollEnd)).release().perform()
+	}
+
+	@Keyword
+	def multiScroll(int times, double startY, double endY, int durationInSec) {
+		for(int i = 0; i < times; i++) {
+			AppiumDriver<?> driver = MobileDriverFactory.getDriver()
+			Dimension dimension = driver.manage().window().getSize()
+			double scrollHeightStart = dimension.getHeight() * startY
+			int scrollStart = scrollHeightStart.intValue()
+			double scrollHeightEnd = dimension.getHeight() * endY
+			int scrollEnd = scrollHeightEnd.intValue()
+			TouchAction action = new TouchAction(driver)
+			action.press(PointOption.point(0, scrollStart)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(durationInSec))).moveTo(PointOption.point(0, scrollEnd)).release().perform()
 		}
 	}
 
@@ -236,26 +328,6 @@ class keywords {
 						Mobile.setEncryptedText(to, text, timeout)
 						break
 					}
-				}
-			}
-		} catch (Exception e) {
-			KeywordUtil.markFailed("Mobile element " + to + " is not found!")
-		}
-	}
-
-	@Keyword
-	def scrollToText(String text, TestObject to, int timeout, int delay) {
-		Mobile.scrollToText(text)
-		try {
-			for(int i = 0; i <= 5; i++) {
-				Mobile.waitForElementPresent(to, timeout)
-				boolean elementExist = Mobile.verifyElementExist(to, timeout)
-				if(!elementExist) {
-					Mobile.delay(delay)
-					continue
-				} else {
-					KeywordUtil.markPassed("Successfully scrolled to " + text + " and found element " + to)
-					break
 				}
 			}
 		} catch (Exception e) {
