@@ -620,4 +620,28 @@ class BDDStepsDefinition {
 		//Scroll down and click on Save and Process On button
 		this.clickOnSaveAndProcessOnButton()
 	}
+	
+	@Then("I should see added product being removed from Scheduled Loyalty Order")
+	def verifyAddedProductHasBeenRemoved() {
+		//Click on Back to Home button
+		this.clickBackToHomeButton()
+		
+		//Verify PV point total with added product
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_PV Amount'), '45.0', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify order total with added product
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Total Amount'), '¥16,700', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify order date
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Sheculed Loyalty Order Date'), 'Jul 2', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Edit Scheduled Loyalty Order
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/icn_Edit Scheduled Loyalty Order'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/lbl_Your Order'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Scroll down and verify that added order no longer exist
+		CustomKeywords.'custom.keywords.multiScroll'(2, 0.5, 0.15, 3)
+		CustomKeywords.'custom.keywords.verifyElementDontExist'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/lbl_OnGuard Softgels'), GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.closeApplication'()
+	}
 }

@@ -73,7 +73,7 @@ import io.appium.java_client.touch.WaitOptions
 
 class keywords {
 
-	
+
 	@Keyword
 	def numberPickerSelectQuantity(int expectedQuantity, TestObject selectedQuantity) {
 		String getSelectedQuantity = this.getText(selectedQuantity, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
@@ -272,6 +272,16 @@ class keywords {
 			}
 		} catch (Exception e) {
 			KeywordUtil.markFailed("Mobile element " + to + " is not found!")
+		}
+	}
+	
+	@Keyword
+	def verifyElementDontExist(TestObject to, int timeout) {
+		boolean elementDontExist = Mobile.verifyElementNotExist(to, timeout)
+		if(elementDontExist) {
+			KeywordUtil.markPassed("Confirmed, element " + to + " no longer exist!")
+		} else {
+			KeywordUtil.markFailed("Warning! Element " + to + " still present on the page!")
 		}
 	}
 

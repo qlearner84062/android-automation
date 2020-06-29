@@ -110,6 +110,14 @@ def static "custom.keywords.verifyElementExistsWithAttribute"(
          , 	delay)
 }
 
+def static "custom.keywords.verifyElementDontExist"(
+    	TestObject to	
+     , 	int timeout	) {
+    (new custom.keywords()).verifyElementDontExist(
+        	to
+         , 	timeout)
+}
+
 def static "custom.keywords.setText"(
     	TestObject to	
      , 	String attributeName	
