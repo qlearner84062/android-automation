@@ -68,6 +68,7 @@ import io.appium.java_client.remote.MobileCapabilityType
 import java.lang.Object
 import io.appium.java_client.touch.offset.PointOption
 import io.appium.java_client.touch.WaitOptions
+import groovy.time.TimeCategory
 
 
 
@@ -76,7 +77,7 @@ class BDDStepsDefinition {
 	@Given("I am on Eroll screen and click on Enroll today button")
 	def startAppValidateEnrollPage() {
 		//Launch application
-		Mobile.startApplication(GlobalVariable.G_AndroidApp, true)
+		CustomKeywords.'custom.keywords.startApplication'(GlobalVariable.G_AndroidApp, findTestObject('Object Repository/doTERRA-MobileApp/Already have an account - Dialog/btn_X'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort, true)
 
 		//Verify welcome message is displaying
 		Mobile.verifyElementExist(findTestObject('doTERRA-HybridApp/Enroll - Page/lbl_Welcome to doTERRA'), GlobalVariable.G_Timeout_Long)
@@ -408,19 +409,19 @@ class BDDStepsDefinition {
 		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Account - Page/lbl_I already have an account'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
 		//Verify Log in button is disabled
-//		this.validateLoginButtonDisabled()
+		this.validateLoginButtonDisabled()
 		
 		//Enter ID
 		CustomKeywords.'custom.keywords.setText'(findTestObject('Object Repository/doTERRA-MobileApp/Log in - Page/txt_Enter your email or ID'), 'enabled', 'true', id, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
 		//Verify Log in button is disabled
-//		this.validateLoginButtonDisabled()
+		this.validateLoginButtonDisabled()
 		
 		//Enter password
 		CustomKeywords.'custom.keywords.setEncryptedText'(findTestObject('Object Repository/doTERRA-MobileApp/Log in - Page/txt_Enter your password'), 'enabled', 'true', password, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
 		//Verify Log in button becomes enabled
-//		this.verifyLoginButtonEnabled()
+		this.verifyLoginButtonEnabled()
 		
 		
 		//Click on Log in button
@@ -521,7 +522,7 @@ class BDDStepsDefinition {
 		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/btn_Save and Process on'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
 	
-	//******************************Edit LRP - Add Product - Process on a Later Date******************************
+	//******************************Edit LRP - Add Remove Product - Process on a Later Date******************************
 	
 	@When("I edit my Scheduled Loyalty Order and add (.*) product")
 	def verifySheduledLoyaltyOrdersAddProduct(String product) {
@@ -529,7 +530,7 @@ class BDDStepsDefinition {
 		CustomKeywords.'custom.keywords.multiScroll'(2, 0.5, 0.1, 3)
 		
 		//Edit order
-		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/icn_Edit Scheduled Loyalty Order'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/icn_Edit Loyalty Order'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
 		//Tap search bar
 		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Name PV or Item number'), 'clickable', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
@@ -589,15 +590,15 @@ class BDDStepsDefinition {
 	}
 	
 	@Then("I should see Scheduled Loyalty Order with added product")
-	def verifyScheduledLoyaltyOrderHaveAddedProduct() {
+	def verifyScheduledLoyaltyOrderHaveAddedProduct() {		
 		//Verify PV point total with added product
 		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_PV Amount'), '73.0', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
 		//Verify order total with added product
-		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Total Amount'), '¥20,500', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Total Amount'), '¥20,824', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
 		//Verify order date
-		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Sheculed Loyalty Order Date'), 'Jul 2', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Scheduled Loyalty Order Date'), 'Aug 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
 	
 	@When("I edit my Scheduled Loyalty Order and and change added product quantity to zero")
@@ -614,7 +615,7 @@ class BDDStepsDefinition {
 		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Select Quantity - Dialog/obj_NumberPicker'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)	
 		
 		//Change quantity to zero and click on Done button
-		CustomKeywords.'custom.keywords.numberPickerSelectQuantity'(0, findTestObject('Object Repository/doTERRA-MobileApp/Select Quantity - Dialog/opt_Quantity Selected'))
+		CustomKeywords.'custom.keywords.selectQuantity'(0, findTestObject('Object Repository/doTERRA-MobileApp/Select Quantity - Dialog/opt_Quantity Selected'))
 		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Select Quantity - Dialog/btn_Done'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
 		//Scroll down and click on Save and Process On button
@@ -626,14 +627,11 @@ class BDDStepsDefinition {
 		//Click on Back to Home button
 		this.clickBackToHomeButton()
 		
-		//Verify PV point total with added product
+		//Verify PV point total without added product
 		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_PV Amount'), '45.0', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
-		//Verify order total with added product
-		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Total Amount'), '¥16,700', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
-		
 		//Verify order date
-		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Sheculed Loyalty Order Date'), 'Jul 2', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Scheduled Loyalty Order Date'), 'Aug 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
 		//Edit Scheduled Loyalty Order
 		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/icn_Edit Scheduled Loyalty Order'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
@@ -642,6 +640,282 @@ class BDDStepsDefinition {
 		//Scroll down and verify that added order no longer exist
 		CustomKeywords.'custom.keywords.multiScroll'(2, 0.5, 0.15, 3)
 		CustomKeywords.'custom.keywords.verifyElementDontExist'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/lbl_OnGuard Softgels'), GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.closeApplication'()
+	}
+	
+	//******************************Create and Delete LRP******************************
+	
+	@When("I click on SHOP icon and scroll to LRP section")
+	def clickShopIconEditLRP() {
+		//Click on SHOP icon
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Bottom Nav/icn_SHOP'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify Shop page is displaying
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_My Loyalty Rewards'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Your percentage back'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Scroll to Scheduled Loyalty Order then click on edit
+		CustomKeywords.'custom.keywords.multiScroll'(2, 0.5, 0.1, 3)
+	}
+	
+	@Then("I should be able to create new LRP and add (.*)")
+	def createNewLRPAddProduct(String product) {
+		//Click on Scheduled Loyalty Orders label
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Scheduled Loyalty Orders'), 'clickable', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Click on Name, PV or Item number text field
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/txt_Name PV or Item number'), 'clickable', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Search for a OnGuard product
+		CustomKeywords.'custom.keywords.setText'(findTestObject('Object Repository/doTERRA-MobileApp/Loyalty Order Search Product - Page/txt_Name or Item number'), 'enabled', 'true', product, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Get and verify product name
+		String productName = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Loyalty Order Search Product - Page/lbl_OnGuard  Softgels'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Loyalty Order Search Product - Page/lbl_OnGuard  Softgels'), product, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Get product price
+		String productPrice = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Loyalty Order Search Product - Page/lbl_OnGuard Price'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Get product PV
+		String productPV = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Loyalty Order Search Product - Page/lbl_OnGuard PV'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Tap to add product
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Loyalty Order Search Product - Page/icn_Add to Bag'), 'clickable', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify product name
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/lbl_Your Order'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.multiScroll'(1, 0.5, 0.2, 3)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/lbl_OnGuard  Softgels'), productName, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify product price
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/lbl_Product Price'), productPrice, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify product PV
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/lbl_Product PV'), productPV, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+	}
+	
+	@Then("I should be able to select processing date and verify (.*), (.*), and delivery address")
+	def selectProcessDate(String phone, String email) {
+		//Scroll down and select Processing Date
+		CustomKeywords.'custom.keywords.multiScroll'(2, 0.5, 0.18, 3)
+		CustomKeywords.'custom.keywords.selectProcessingDate'(10, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Scroll down and verify phone number
+		CustomKeywords.'custom.keywords.multiScroll'(2, 0.5, 0.15, 3)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/lbl_Phone Number'), 'Phone Number', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/txt_Phone Number'), phone, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify primary email
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/lbl_Primary Email'), 'Primary Email', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/txt_Primary Email'), email, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify delivery address
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/lbl_Delivery Address'), 'Delivery Address', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		String deliveryAddress = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/txt_Delivery Address'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		assert deliveryAddress.contains('Pinto, Lucas')
+		assert deliveryAddress.contains('060-0001')
+		assert deliveryAddress.contains('Hokkaido')
+		assert deliveryAddress.contains('Sapporo Shi Chuo Ku')
+		assert deliveryAddress.contains('Kita1-Jonishi')
+		assert deliveryAddress.contains('House')
+		assert deliveryAddress.contains('JPN')
+	}
+	
+	@When("I select my payment method and verify my Order Summary")
+	def selectPaymentMethod() {
+		//Verify Payment Information label is displaying
+		CustomKeywords.'custom.keywords.multiScroll'(2, 0.5, 0.18, 3)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/lbl_Payment Information'), 'Payment Information', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify selected payment method
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/opt_Selected Payment'), 'Visa – Ending in 1111', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify Billing Address label is displaying
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/lbl_Billing Address'), 'Billing Address', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify Add New Payment Method link is displaying then click on it
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/lnk_Add New Payment Method'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/lst_Select Payment Method'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Select Cash on Delivery payment method
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Select Quantity - Dialog/obj_NumberPicker'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)	
+		CustomKeywords.'custom.keywords.selectPaymentMethod'("Cash on Delivery", findTestObject('Object Repository/doTERRA-MobileApp/Select Payment - Dialog/opt_Selected Payment Method'))
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Select Payment - Dialog/btn_Done'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify that Cash on Delivery payment method got selected
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/opt_Selected Payment'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/opt_Selected Payment'), 'Cash on Delivery', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify Order Summary label is displaying
+		CustomKeywords.'custom.keywords.multiScroll'(1, 0.5, 0.2, 3)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/lbl_Order Summary'), 'Order Summary', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify Items Total
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/lbl_Items Total'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/txt_Items Total'), '¥3,800', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify Subtotal
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/lbl_Subtotal'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/txt_Subtotal'), '¥3,800', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify Tax
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/lbl_Tax'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/txt_Tax'), '¥0', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify Shipping
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/lbl_Shipping'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/txt_Shipping'), '¥600', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify PV Earned
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/lbl_PV Earned'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/txt_PV Earned'), '28.00', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify Total
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/lbl_Total'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/txt_Total'), '¥4,400', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+	}
+	
+	@When("I click on Save and Process Now button")
+	def clickSaveAndProcessNow() {
+		//Click on Save and Process Now button
+		CustomKeywords.'custom.keywords.multiScroll'(1, 0.5, 0.4, 1)
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/btn_Save and Process Now'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+	}
+	
+	@Then("I should see added LRP order")
+	def verifyAddedLRPOrder() {
+		//Verify added order processing date
+		CustomKeywords.'custom.keywords.multiScroll'(1, 0.5, 0.35, 3)
+		Date today = new Date()
+		String currentMonth = today.format('MMM')
+		if(currentMonth == "Jan") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/txt_Processing Date Order 2'), 'Feb 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "Feb") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/txt_Processing Date Order 2'), 'Mar 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "Mar") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/txt_Processing Date Order 2'), 'Apr 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "Apr") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/txt_Processing Date Order 2'), 'May 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "May") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/txt_Processing Date Order 2'), 'Jun 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "Jun") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/txt_Processing Date Order 2'), 'Jul 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "Jul") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/txt_Processing Date Order 2'), 'Aug 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "Aug") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/txt_Processing Date Order 2'), 'Sep 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "Sep") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/txt_Processing Date Order 2'), 'Oct 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "Oct") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/txt_Processing Date Order 2'), 'Nov 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "Nov") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/txt_Processing Date Order 2'), 'Dec 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "Dec") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/txt_Processing Date Order 2'), 'Jan 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		}
+		
+		//Verify added order PV points
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/txt_PV Order 2'), '28.0', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify added order total
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/txt_Total Order 2'), '¥4,724', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+	}
+	
+	@When("I edit my added LRP order")
+	def editSecondLRPOrder() {
+		//Edit second LRP order
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/icn_Edit LRP 2'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify Edit Loyalty Order screen is displaying
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/lbl_Add Additional Products'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+	}
+	
+	@Then("I should be able to validate (.*), (.*), (.*), Processing Date, Delivery Address, (.*), and Order Summary")
+	def validateLRPOrder(String product, String phone, String email, String paymentMethod) {
+		//Verify OnGuard + Softgels product is displaying
+		CustomKeywords.'custom.keywords.multiScroll'(1, 0.5, 0.35, 3)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/lbl_OnGuard Softgels'), product, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify LRP order processing date
+		CustomKeywords.'custom.keywords.multiScroll'(2, 0.5, 0.3, 3)
+		Date today = new Date()
+		String currentMonth = today.format('MMM')
+		if(currentMonth == "Jan") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Processing Date'), 'Feb 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "Feb") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Processing Date'), 'Mar 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "Mar") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Processing Date'), 'Apr 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "Apr") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Processing Date'), 'May 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "May") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Processing Date'), 'Jun 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "Jun") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Processing Date'), 'Jul 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "Jul") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Processing Date'), 'Aug 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "Aug") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Processing Date'), 'Sep 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "Sep") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Processing Date'), 'Oct 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "Oct") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Processing Date'), 'Nov 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "Nov") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Processing Date'), 'Dec 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		} else if(currentMonth == "Dec") {
+			CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Processing Date'), 'Jan 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		}
+		
+		//Validate phone number
+		CustomKeywords.'custom.keywords.multiScroll'(2, 0.5, 0.25, 3)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Phone Number'), phone, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Validate primary email
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Primary Email'), email, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Validate delivery address
+		String deliveryAddress = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Delivery Address'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		assert deliveryAddress.contains('Pinto, Lucas')
+		assert deliveryAddress.contains('060-0001')
+		assert deliveryAddress.contains('Hokkaido')
+		assert deliveryAddress.contains('Sapporo Shi Chuo Ku')
+		assert deliveryAddress.contains('Kita1-Jonishi')
+		assert deliveryAddress.contains('House')
+		assert deliveryAddress.contains('JPN')
+		
+		//Validate selected payment method
+		CustomKeywords.'custom.keywords.multiScroll'(2, 0.5, 0.3, 3)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/opt_Selected Payment'), paymentMethod, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+
+		//Validate order summary
+		CustomKeywords.'custom.keywords.multiScroll'(2, 0.5, 0.3, 3)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Items Total'), '¥3,800', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Subtotal'), '¥3,800', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Shipping'), '¥600', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Total'), '¥4,400', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+	}
+	
+	@Then("I should be able to delete added LRP order")
+	def deleteLRPOrder() {
+		//Delete LRP order
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/icn_...'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/btn_Delete Template'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Delete Template - Dialog/btn_Yes'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify LRP order has been deleted
+		CustomKeywords.'custom.keywords.verifyElementExistsWithAttribute'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_My Loyalty Rewards'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.multiScroll'(2, 0.5, 0.2, 3)
+		CustomKeywords.'custom.keywords.verifyElementDontExist'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/icn_Edit LRP 2'), GlobalVariable.G_Timeout_XShort)
+	}
+	
+	@Then("I should not be able to delete last LRP order")
+	def verifyLastLRPOrderCannotBeDeleted() {
+		//Edit last LRP order
+		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/icn_Edit Loyalty Order'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		
+		//Verify ... icon is not displaying
+		CustomKeywords.'custom.keywords.verifyElementDontExist'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/icn_...'), GlobalVariable.G_Timeout_XShort)
 		CustomKeywords.'custom.keywords.closeApplication'()
 	}
 }

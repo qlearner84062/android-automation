@@ -101,7 +101,7 @@
       <matchCondition>equals</matchCondition>
       <name>x</name>
       <type>Main</type>
-      <value>608</value>
+      <value>362</value>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
@@ -115,7 +115,7 @@
       <matchCondition>equals</matchCondition>
       <name>width</name>
       <type>Main</type>
-      <value>224</value>
+      <value>716</value>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>

@@ -24,7 +24,7 @@
       <matchCondition>equals</matchCondition>
       <name>text</name>
       <type>Main</type>
-      <value>¥20,500</value>
+      <value>¥20,824</value>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -122,14 +122,14 @@
       <matchCondition>equals</matchCondition>
       <name>y</name>
       <type>Main</type>
-      <value>1542</value>
+      <value>1091</value>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
       <matchCondition>equals</matchCondition>
       <name>width</name>
       <type>Main</type>
-      <value>187</value>
+      <value>179</value>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>

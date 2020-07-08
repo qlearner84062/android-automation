@@ -73,9 +73,8 @@ import io.appium.java_client.touch.WaitOptions
 
 class keywords {
 
-
 	@Keyword
-	def numberPickerSelectQuantity(int expectedQuantity, TestObject selectedQuantity) {
+	def selectQuantity(int expectedQuantity, TestObject selectedQuantity) {
 		String getSelectedQuantity = this.getText(selectedQuantity, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		int actualQuantity = Integer.parseInt(getSelectedQuantity)
 		while(actualQuantity != expectedQuantity) {
@@ -110,6 +109,27 @@ class keywords {
 				getSelectedQuantity = this.getText(selectedQuantity, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 				actualQuantity = Integer.parseInt(getSelectedQuantity)
 			}
+		}
+	}
+
+	@Keyword
+	def selectPaymentMethod(String expectedMethod, TestObject selectedPaymentMethod) {
+		Mobile.waitForElementPresent(selectedPaymentMethod, GlobalVariable.G_Timeout_Long)
+		String getSelectedMethod = this.getText(selectedPaymentMethod, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		while(!getSelectedMethod.contentEquals(expectedMethod)) {
+			AppiumDriver<?> driver = MobileDriverFactory.getDriver()
+			Dimension dimension = driver.manage().window().getSize()
+			System.out.println("dimension: " + dimension)
+			double centerX = dimension.getWidth() / 2
+			int startX = centerX.intValue()
+			System.out.println("startX: " + startX)
+			double centerY = dimension.getHeight() / 2
+			int startY = centerY.intValue()
+			System.out.println("startY: " + startY)
+			int endY = startY - 200
+			TouchAction action = new TouchAction(driver)
+			action.press(PointOption.point(startX, startY)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3))).moveTo(PointOption.point(startX, endY)).release().perform()
+			getSelectedMethod = this.getText(selectedPaymentMethod, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		}
 	}
 
@@ -203,7 +223,7 @@ class keywords {
 		Mobile.startApplication(appFile, uninstallAfterCloseApp)
 		Mobile.waitForElementPresent(to, timeout)
 		try {
-			for(int i = 0; i <= 5; i++) {
+			for(int i = 0; i <= 3; i++) {
 				boolean elementExist = Mobile.verifyElementExist(to, timeout)
 				if(!elementExist) {
 					Mobile.delay(delay)
@@ -222,7 +242,7 @@ class keywords {
 	@Keyword
 	def tap(TestObject to, String attributeName, String attributeValue, int timeout, int delay) {
 		try {
-			for(int i = 0; i <= 5; i++) {
+			for(int i = 0; i <= 3; i++) {
 				Mobile.waitForElementPresent(to, timeout)
 				boolean elementExist = Mobile.verifyElementExist(to, timeout)
 				if(!elementExist) {
@@ -248,11 +268,12 @@ class keywords {
 	}
 
 	@Keyword
-	def verifyElementExistsWithAttribute(TestObject to, String attributeName, String attributeValue, int timeout, int delay) {
+	def boolean verifyElementExistsWithAttribute(TestObject to, String attributeName, String attributeValue, int timeout, int delay) {
 		try {
-			for(int i = 0; i <= 5; i++) {
-				Mobile.waitForElementPresent(to, timeout)
+			Mobile.waitForElementPresent(to, timeout)
+			for(int i = 0; i <= 3; i++) {
 				boolean elementExist = Mobile.verifyElementExist(to, timeout)
+				System.out.println("elementExist: " + elementExist)
 				if(!elementExist) {
 					Mobile.delay(delay)
 					continue
@@ -265,7 +286,13 @@ class keywords {
 						continue
 					} else {
 						System.out.println("elementHasAttribute (verifyElementExistsWithAttribute): " + elementHasAttribute)
-						KeywordUtil.markPassed("Found elemenet " + to + " with attribute " + attributeName + " and attribute value " + attributeValue)
+						if(elementExist && elementHasAttribute) {
+							KeywordUtil.markPassed("Found elemenet " + to + " with attribute " + attributeName + " and attribute value " + attributeValue)
+							return true
+						} else {
+							KeywordUtil.markFailed("Element " + to + " is not found!")
+							return false
+						}
 						break
 					}
 				}
@@ -274,7 +301,7 @@ class keywords {
 			KeywordUtil.markFailed("Mobile element " + to + " is not found!")
 		}
 	}
-	
+
 	@Keyword
 	def verifyElementDontExist(TestObject to, int timeout) {
 		boolean elementDontExist = Mobile.verifyElementNotExist(to, timeout)
@@ -288,7 +315,7 @@ class keywords {
 	@Keyword
 	def setText(TestObject to, String attributeName, String attributeValue, String text, int timeout, int delay) {
 		try {
-			for(int i = 0; i <= 5; i++) {
+			for(int i = 0; i <= 3; i++) {
 				Mobile.waitForElementPresent(to, timeout)
 				boolean elementExist = Mobile.verifyElementExist(to, timeout)
 				if(!elementExist) {
@@ -318,7 +345,7 @@ class keywords {
 	@Keyword
 	def setEncryptedText(TestObject to, String attributeName, String attributeValue, String text, int timeout, int delay) {
 		try {
-			for(int i = 0; i <= 5; i++) {
+			for(int i = 0; i <= 3; i++) {
 				Mobile.waitForElementPresent(to, timeout)
 				boolean elementExist = Mobile.verifyElementExist(to, timeout)
 				if(!elementExist) {
@@ -348,7 +375,7 @@ class keywords {
 	@Keyword
 	def String getText(TestObject to, int timeout, int delay) {
 		try {
-			for(int i = 0; i <= 5; i++) {
+			for(int i = 0; i <= 3; i++) {
 				Mobile.waitForElementPresent(to, timeout)
 				boolean elementExist = Mobile.verifyElementExist(to, timeout)
 				if(!elementExist) {
@@ -366,27 +393,28 @@ class keywords {
 	}
 
 	@Keyword
-	def getTextAndVerifyMatch(TestObject to, String expectedText, int timeout, int delay) {
-		try {
-			for(int i = 0; i <= 5; i++) {
-				Mobile.waitForElementPresent(to, timeout)
-				boolean elementExist = Mobile.verifyElementExist(to, timeout)
-				if(!elementExist) {
-					Mobile.delay(delay)
-					continue
+	def boolean getTextAndVerifyMatch(TestObject to, String expectedText, int timeout, int delay) {
+		Mobile.waitForElementPresent(to, timeout)
+		for(int i = 0; i <= 3; i++) {
+			boolean elementExist = Mobile.verifyElementExist(to, timeout)
+			System.out.println("Verify elementExist: " + elementExist)
+			if(!elementExist) {
+				Mobile.delay(delay)
+				continue
+			} else {
+				String actualText = Mobile.getText(to, timeout)
+				System.out.println("actualText: " + actualText)
+				System.out.println("expectedText: " + expectedText)
+				boolean compare = Mobile.verifyMatch(actualText, expectedText, false)
+				System.out.println("compare: " + compare)
+				if(compare) {
+					KeywordUtil.markPassed("Successfully verified actual text " + actualText + " and expected text " + expectedText)
+					return true
 				} else {
-					String actualText = Mobile.getText(to, timeout)
-					boolean compare = Mobile.verifyMatch(actualText, expectedText, false)
-					if(compare) {
-						KeywordUtil.markPassed("Successfully verified actual text " + actualText + " and expected text " + expectedText)
-						break
-					} else {
-						KeywordUtil.markFailed("Failed to verify match! Actual text" + actualText + " and expected text " + expectedText)
-					}
+					KeywordUtil.markFailed("Failed to verify match! Actual text" + actualText + " and expected text " + expectedText)
+					return false
 				}
 			}
-		} catch (Exception e) {
-			KeywordUtil.markFailed("Mobile element " + to + " is not found!")
 		}
 	}
 
@@ -434,5 +462,72 @@ class keywords {
 			sb.append(chars.charAt(rand.nextInt(chars.length())));
 		}
 		return sb.toString();
+	}
+
+	@Keyword
+	def selectProcessingDate(int date, int timeout, int delay) {
+		if(date == 1) {
+			KeywordUtil.markError("Please enter valid number, 1, 15, 29, 30, and 31 are invalid entires!")
+		} else if(date == 2) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_2'), "enabled", "true", timeout, delay)
+		} else if(date == 3) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_3'), "enabled", "true", timeout, delay)
+		} else if(date == 4) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_4'), "enabled", "true", timeout, delay)
+		} else if(date == 5) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_5'), "enabled", "true", timeout, delay)
+		} else if(date == 6) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_6'), "enabled", "true", timeout, delay)
+		} else if(date == 7) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_7'), "enabled", "true", timeout, delay)
+		} else if(date == 8) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_8'), "enabled", "true", timeout, delay)
+		} else if(date == 9) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_9'), "enabled", "true", timeout, delay)
+		} else if(date == 10) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_10'), "enabled", "true", timeout, delay)
+		} else if(date == 11) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_11'), "enabled", "true", timeout, delay)
+		} else if(date == 12) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_12'), "enabled", "true", timeout, delay)
+		} else if(date == 13) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_13'), "enabled", "true", timeout, delay)
+		} else if(date == 14) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_14'), "enabled", "true", timeout, delay)
+		} else if(date == 15) {
+			KeywordUtil.markError("Please enter valid number, 1, 15, 29, 30, and 31 are invalid entires!")
+		} else if(date == 16) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_16'), "enabled", "true", timeout, delay)
+		} else if(date == 17) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_17'), "enabled", "true", timeout, delay)
+		} else if(date == 18) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_18'), "enabled", "true", timeout, delay)
+		} else if(date == 19) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_19'), "enabled", "true", timeout, delay)
+		} else if(date == 20) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_20'), "enabled", "true", timeout, delay)
+		} else if(date == 21) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_21'), "enabled", "true", timeout, delay)
+		} else if(date == 22) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_22'), "enabled", "true", timeout, delay)
+		} else if(date == 23) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_23'), "enabled", "true", timeout, delay)
+		} else if(date == 24) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_24'), "enabled", "true", timeout, delay)
+		} else if(date == 25) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_25'), "enabled", "true", timeout, delay)
+		} else if(date == 26) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_26'), "enabled", "true", timeout, delay)
+		} else if(date == 27) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_27'), "enabled", "true", timeout, delay)
+		} else if(date == 28) {
+			this.tap(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/date_28'), "enabled", "true", timeout, delay)
+		} else if(date == 29) {
+			KeywordUtil.markError("Please enter valid number, 1, 15, 29, 30, and 31 are invalid entires!")
+		} else if(date == 30) {
+			KeywordUtil.markError("Please enter valid number, 1, 15, 29, 30, and 31 are invalid entires!")
+		} else if(date == 31) {
+			KeywordUtil.markError("Please enter valid number, 1, 15, 29, 30, and 31 are invalid entires!")
+		}
 	}
 }

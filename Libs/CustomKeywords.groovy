@@ -10,12 +10,20 @@ import java.lang.String
 import java.lang.Object
 
 
-def static "custom.keywords.numberPickerSelectQuantity"(
+def static "custom.keywords.selectQuantity"(
     	int expectedQuantity	
      , 	TestObject selectedQuantity	) {
-    (new custom.keywords()).numberPickerSelectQuantity(
+    (new custom.keywords()).selectQuantity(
         	expectedQuantity
          , 	selectedQuantity)
+}
+
+def static "custom.keywords.selectPaymentMethod"(
+    	String expectedMethod	
+     , 	TestObject selectedPaymentMethod	) {
+    (new custom.keywords()).selectPaymentMethod(
+        	expectedMethod
+         , 	selectedPaymentMethod)
 }
 
 def static "custom.keywords.getElementByText"(
@@ -204,4 +212,14 @@ def static "custom.keywords.getRandomString"(
     	int length	) {
     (new custom.keywords()).getRandomString(
         	length)
+}
+
+def static "custom.keywords.selectProcessingDate"(
+    	int date	
+     , 	int timeout	
+     , 	int delay	) {
+    (new custom.keywords()).selectProcessingDate(
+        	date
+         , 	timeout
+         , 	delay)
 }
