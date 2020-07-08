@@ -1,7 +1,7 @@
 Feature: LRP
-  As as user I should be able to create and delete my LRP
+  As as user I should be able to create, edit add product, and delete my LRP
 
-  Scenario Outline: Create and Delete LRP
+  Scenario Outline: Create, Edit Add Product, and Delete LRP
     Given I successfully lanuched Mobile application
     And I have successfully authenticated my <userName> with <id> and <password>
     When I click on SHOP icon and scroll to LRP section
