@@ -18,7 +18,7 @@
       <matchCondition>equals</matchCondition>
       <name>text</name>
       <type>Main</type>
-      <value>Pinto, Lucas
+      <value>Hook, Kurtis
 060-0001
 Hokkaido
 Sapporo Shi Chuo Ku
@@ -122,7 +122,7 @@ JPN</value>
       <matchCondition>equals</matchCondition>
       <name>y</name>
       <type>Main</type>
-      <value>1141</value>
+      <value>1213</value>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>

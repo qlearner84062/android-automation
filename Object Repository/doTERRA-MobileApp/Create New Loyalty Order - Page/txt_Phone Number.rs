@@ -4,6 +4,12 @@
    <name>txt_Phone Number</name>
    <tag></tag>
    <elementGuidId>00000000-0000-0000-0000-000000000000</elementGuidId>
+   <selectorCollection>
+      <entry>
+         <key>BASIC</key>
+         <value>//*[@class = 'android.widget.TextView' and (text() = '111122223' or . = '111122223') and @resource-id = 'com.doterra.doterramobileshop.QA:id/phoneNumberDescription']</value>
+      </entry>
+   </selectorCollection>
    <selectorMethod>BASIC</selectorMethod>
    <useRalativeImagePath>false</useRalativeImagePath>
    <webElementProperties>
@@ -18,7 +24,7 @@
       <matchCondition>equals</matchCondition>
       <name>text</name>
       <type>Main</type>
-      <value>1234561234</value>
+      <value>111122223</value>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>

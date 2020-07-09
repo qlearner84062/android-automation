@@ -9,12 +9,12 @@ Feature: LRP
     When I click on Save and Process on button   
     Then I should see Order Confirmation screen
     When I click on Back to Home button
-    Then I should see Scheduled Loyalty Order with added product
-    When I edit my Scheduled Loyalty Order and and change added product quantity to zero
+    Then I should see Scheduled Loyalty Order with added product and <processingDate>
+    When I edit my Scheduled Loyalty Order and change added product quantity to zero
     Then I should see Order Confirmation screen
-    And I should see added product being removed from Scheduled Loyalty Order
+    And I should see added product being removed from Scheduled Loyalty Order with <processingDate>
     
     
     Examples: 
-      | id      | password                 | userName    | product            |
-      | 8111537 | VL+i8NsHPUhDiyVo8sB+5w== | Lucas       | OnGuard + Softgels |
+      | id      | password                 | userName | product            | processingDate |
+      | 8119743 | VL+i8NsHPUhDiyVo8sB+5w== | Kurtis   | OnGuard + Softgels | Aug 2         |

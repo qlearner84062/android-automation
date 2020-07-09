@@ -428,7 +428,7 @@ class BDDStepsDefinition {
 		this.clickLoginButton()
 		
 		//Verify right user was authenticated
-		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/lbl_Lucas'), userName, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/User Account - Page/lbl_Kurtis'), userName, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
 	
 	@When("I click on SHOP icon")
@@ -447,11 +447,11 @@ class BDDStepsDefinition {
 		CustomKeywords.'custom.keywords.swipeDown'(1)
 		
 		//Get PV and Order Total values
-		String pv = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_PV 45.0'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		String pv = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/txt_PV'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		pv = pv.minus(".0")
 		def pvValue = pv.toInteger()
 		
-		String total = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Total 16700'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		String total = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/txt_Total'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		total = total.minus("¥")
 		total = total.minus(",")		
 		def totalValue = total.toInteger()
@@ -489,14 +489,14 @@ class BDDStepsDefinition {
 	@When("I edit my Scheduled Loyalty Order and click on Save and Process on later date button")
 	def verifySheduledLoyaltyOrderOnLaterDate() {
 		//Scroll to Scheduled Loyalty Order then click on edit
-		CustomKeywords.'custom.keywords.scrollToText'('Scheduled Loyalty Orders')
+		CustomKeywords.'custom.keywords.multiScroll'(2, 0.5, 0.1, 3)
 		
 		//Get PV and Order Total values
-		String pv = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_PV 45.0'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		String pv = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/txt_PV'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		pv = pv.minus(".0")
 		def pvValue = pv.toInteger()
 		
-		String total = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Total 16700'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		String total = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/txt_Total'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		total = total.minus("¥")
 		total = total.minus(",")
 		def totalValue = total.toInteger()
@@ -589,19 +589,19 @@ class BDDStepsDefinition {
 		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Loyalty Order Confirmation - Page/btn_Back to Home'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
 	
-	@Then("I should see Scheduled Loyalty Order with added product")
-	def verifyScheduledLoyaltyOrderHaveAddedProduct() {		
+	@Then("I should see Scheduled Loyalty Order with added product and (.*)")
+	def verifyScheduledLoyaltyOrderHaveAddedProduct(String processingDate) {		
 		//Verify PV point total with added product
 		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_PV Amount'), '73.0', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
 		//Verify order total with added product
-		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Total Amount'), '¥20,824', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Total Amount'), '¥20,500', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
 		//Verify order date
-		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Scheduled Loyalty Order Date'), 'Aug 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Scheduled Loyalty Order Date'), processingDate, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 	}
 	
-	@When("I edit my Scheduled Loyalty Order and and change added product quantity to zero")
+	@When("I edit my Scheduled Loyalty Order and change added product quantity to zero")
 	def eidtLoyaltyOrderAndChangeProductQuantityToZero() {
 		//Edit Scheduled Loyalty Order
 		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/icn_Edit Scheduled Loyalty Order'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
@@ -622,8 +622,8 @@ class BDDStepsDefinition {
 		this.clickOnSaveAndProcessOnButton()
 	}
 	
-	@Then("I should see added product being removed from Scheduled Loyalty Order")
-	def verifyAddedProductHasBeenRemoved() {
+	@Then("I should see added product being removed from Scheduled Loyalty Order with (.*)")
+	def verifyAddedProductHasBeenRemoved(String processingDate) {
 		//Click on Back to Home button
 		this.clickBackToHomeButton()
 		
@@ -631,7 +631,7 @@ class BDDStepsDefinition {
 		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_PV Amount'), '45.0', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
 		//Verify order date
-		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Scheduled Loyalty Order Date'), 'Aug 10', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/lbl_Scheduled Loyalty Order Date'), processingDate, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
 		//Edit Scheduled Loyalty Order
 		CustomKeywords.'custom.keywords.tap'(findTestObject('Object Repository/doTERRA-MobileApp/Shop - Page/icn_Edit Scheduled Loyalty Order'), 'enabled', 'true', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
@@ -712,7 +712,7 @@ class BDDStepsDefinition {
 		//Verify delivery address
 		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/lbl_Delivery Address'), 'Delivery Address', GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		String deliveryAddress = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Create New Loyalty Order - Page/txt_Delivery Address'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
-		assert deliveryAddress.contains('Pinto, Lucas')
+		assert deliveryAddress.contains('Hook, Kurtis')
 		assert deliveryAddress.contains('060-0001')
 		assert deliveryAddress.contains('Hokkaido')
 		assert deliveryAddress.contains('Sapporo Shi Chuo Ku')
@@ -868,14 +868,15 @@ class BDDStepsDefinition {
 		
 		//Validate phone number
 		CustomKeywords.'custom.keywords.multiScroll'(2, 0.5, 0.25, 3)
-		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Phone Number'), phone, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
+		//There is a bug filed for inconsistency in displaying phone number
+//		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Phone Number'), phone, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
 		//Validate primary email
 		CustomKeywords.'custom.keywords.getTextAndVerifyMatch'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Primary Email'), email, GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
 		
 		//Validate delivery address
 		String deliveryAddress = CustomKeywords.'custom.keywords.getText'(findTestObject('Object Repository/doTERRA-MobileApp/Edit Loyalty Order - Page/txt_Delivery Address'), GlobalVariable.G_Timeout_Long, GlobalVariable.G_Timeout_XShort)
-		assert deliveryAddress.contains('Pinto, Lucas')
+		assert deliveryAddress.contains('Hook, Kurtis')
 		assert deliveryAddress.contains('060-0001')
 		assert deliveryAddress.contains('Hokkaido')
 		assert deliveryAddress.contains('Sapporo Shi Chuo Ku')

@@ -4,24 +4,6 @@
    <name>txt_Delivery Address</name>
    <tag></tag>
    <elementGuidId>00000000-0000-0000-0000-000000000000</elementGuidId>
-   <selectorCollection>
-      <entry>
-         <key>BASIC</key>
-         <value>//*[@class = 'android.widget.TextView' and (text() = 'Pinto, Lucas
-060-0001
-Hokkaido
-Sapporo Shi Chuo Ku
-Kita1-Jonishi
-House
-JPN' or . = 'Pinto, Lucas
-060-0001
-Hokkaido
-Sapporo Shi Chuo Ku
-Kita1-Jonishi
-House
-JPN') and @resource-id = 'com.doterra.doterramobileshop.QA:id/deliveryAddressDescription']</value>
-      </entry>
-   </selectorCollection>
    <selectorMethod>BASIC</selectorMethod>
    <useRalativeImagePath>false</useRalativeImagePath>
    <webElementProperties>
@@ -36,7 +18,7 @@ JPN') and @resource-id = 'com.doterra.doterramobileshop.QA:id/deliveryAddressDes
       <matchCondition>equals</matchCondition>
       <name>text</name>
       <type>Main</type>
-      <value>Pinto, Lucas
+      <value>Hook, Kurtis
 060-0001
 Hokkaido
 Sapporo Shi Chuo Ku
@@ -140,7 +122,7 @@ JPN</value>
       <matchCondition>equals</matchCondition>
       <name>y</name>
       <type>Main</type>
-      <value>1169</value>
+      <value>1213</value>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>

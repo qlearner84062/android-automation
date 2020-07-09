@@ -18,5 +18,5 @@ Feature: LRP
     And I should not be able to delete last LRP order
     
     Examples: 
-      | id      | password                 | userName    | product            | phone      | email                                    | paymentMethod    |
-      | 8111537 | VL+i8NsHPUhDiyVo8sB+5w== | Lucas       | OnGuard + Softgels | 1234561234 | it.doterratest+8111537-preview@gmail.com | Cash on Delivery |
+      | id      | password                 | userName | product            | phone     | email                                  | paymentMethod    |
+      | 8119743 | VL+i8NsHPUhDiyVo8sB+5w== | Kurtis   | OnGuard + Softgels | 111122223 | it.doterratest+8119743-wa-kh@gmail.com | Cash on Delivery |

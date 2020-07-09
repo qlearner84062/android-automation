@@ -10,5 +10,5 @@ Feature: LRP
     
 
     Examples: 
-      | id      | password                 | userName    |
-      | 8111537 | VL+i8NsHPUhDiyVo8sB+5w== | Lucas       |
+      | id      | password                 | userName |
+      | 8119743 | VL+i8NsHPUhDiyVo8sB+5w== | Kurtis   |

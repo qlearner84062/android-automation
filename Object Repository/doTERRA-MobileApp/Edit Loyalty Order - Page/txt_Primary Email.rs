@@ -4,6 +4,12 @@
    <name>txt_Primary Email</name>
    <tag></tag>
    <elementGuidId>00000000-0000-0000-0000-000000000000</elementGuidId>
+   <selectorCollection>
+      <entry>
+         <key>BASIC</key>
+         <value>//*[@class = 'android.widget.TextView' and (text() = 'it.doterratest+8119743-wa-kh@gmail.com' or . = 'it.doterratest+8119743-wa-kh@gmail.com') and @resource-id = 'com.doterra.doterramobileshop.QA:id/primaryEmailDescription']</value>
+      </entry>
+   </selectorCollection>
    <selectorMethod>BASIC</selectorMethod>
    <useRalativeImagePath>false</useRalativeImagePath>
    <webElementProperties>
@@ -18,7 +24,7 @@
       <matchCondition>equals</matchCondition>
       <name>text</name>
       <type>Main</type>
-      <value>it.doterratest+8111537-preview@gmail.com</value>
+      <value>it.doterratest+8119743-wa-kh@gmail.com</value>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
